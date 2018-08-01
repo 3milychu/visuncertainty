@@ -44,14 +44,6 @@ nav {
 	vertical-align:top;
 }
 
-output-screen h1{
-	padding-left:5%;
-}
-
-output-screen p {
-	padding-left:5%;
-}
-
 selected-variable h1 {
 	font-size:1em;
 	text-transform:uppercase;
@@ -68,6 +60,16 @@ selected-variable h2{
 	line-height:1em;
 	transition: 0.5s ease;
 
+}
+
+h5 {
+	font-size:1em;
+	font-weight:100;
+	padding-bottom:0.1%;
+	display:inline;
+	color:white;
+	border-bottom: 0.05em dotted white;
+	vertical-align:top;
 }
 
 </style>
@@ -95,13 +97,8 @@ selected-variable h2{
 
 	<custom-calculator id="calculator">
 		<output-screen>
-			<p>
 			<h1>Show Me </h1>
-			<pl-value></pl-value>
-			<sh-value></sh-value>
-			<or-value></or-value>
-			<co-value></co-value>
-			</p>
+			<p id="output-message"><pl-value></pl-value><sh-value></sh-value><or-value></or-value><co-value></co-value></p>
 		</output-screen>
 		<buttons-module></buttons-module>
 	</custom-calculator>
@@ -114,8 +111,11 @@ selected-variable h2{
 <!-- Script -->
 <script>
 
-//Create custom HTML Elements
+//Define global variables
 
+var tracking;
+
+//Create custom HTML Elements
 
 customElements.define('site-logo', class extends HTMLElement {
 })
@@ -135,13 +135,14 @@ customElements.define('custom-calculator', class extends HTMLElement {
     ::slotted( output-screen ){
     	display:inline-block;
     	background-color:orange;
-    	width:50%;
+    	width:40%;
     	height:85vh;
+    	padding: 5%;
     }
 
     ::slotted( buttons-module ){
     	display:inline-block;
-    	width: 49.5%;
+    	width: 49%;
     	height:80vh;
     	vertical-align:top;
     }
@@ -332,12 +333,6 @@ function lightboxOn() {
 	document.querySelector('bg-overlay').style.display="block";
 }
 
-var close = document.querySelector('save-close');
-close.addEventListener("click", function () {
-	document.querySelector('slider-lightbox').style.display="none";
-	document.querySelector('bg-overlay').style.display="none";
-	document.querySelector('pl-value').textContent = document.querySelector('.variable-value').innerHTML + " Placement";
-})
 
 function buttonHover() {
 	d3.select(this)
@@ -357,20 +352,78 @@ function buttonOut() {
 var buttons = document.getElementsByTagName('calc-buttons');
 for(i=0;i<buttons.length;i++) {
 	buttons[i].onclick=function () {
-		value = this.id;
-		console.log(value);
-		if (value === "pl") {
+
+		tracking = this.id;
+
+		if (tracking === "pl") {
 			document.querySelector('.variable-name').textContent = 'Placement';
-		} else if (value === "sh") {
+		} else if (tracking === "sh") {
 			document.querySelector('.variable-name').textContent = 'Shape';
-		} else if (value === "or") {
+		} else if (tracking === "or") {
 			document.querySelector('.variable-name').textContent = 'Orientation';
-		} else if (value === "co") {
+		} else if (tracking === "co") {
 			document.querySelector('.variable-name').textContent = 'Color';
-		}
-		;
+		};
 	}
 }
+
+// When click on save and close, send values to output screen
+var close = document.querySelector('save-close');
+close.addEventListener("click", function () {
+
+	document.querySelector('slider-lightbox').style.display="none";
+	document.querySelector('bg-overlay').style.display="none";
+
+	function fillOutput() {
+
+		if (tracking === "pl") {
+			document.querySelector('pl-value').innerHTML = "<h5>" + 
+			document.querySelector('.variable-value').innerHTML + 
+			"</h5> Placement";
+		} else if (tracking === "sh") {
+			document.querySelector('sh-value').innerHTML = "<h5>" + 
+			document.querySelector('.variable-value').innerHTML + 
+			"</h5> Shape";
+		} else if (tracking === "or") {
+			document.querySelector('or-value').innerHTML = "<h5>" + 
+			document.querySelector('.variable-value').innerHTML + 
+			"</h5> Orientation";
+		} else if (tracking === "co") {
+			document.querySelector('co-value').innerHTML = "<h5>" + 
+			document.querySelector('.variable-value').innerHTML + 
+			"</h5> Color";
+		};
+	}
+
+	function fillOutputAnds() {
+
+		if (tracking === "pl") {
+			document.querySelector('pl-value').innerHTML = "<h5>" + 
+			document.querySelector('.variable-value').innerHTML + 
+			"</h5> Placement and ";
+		} else if (tracking === "sh") {
+			document.querySelector('sh-value').innerHTML = " and <h5>" + 
+			document.querySelector('.variable-value').innerHTML + 
+			"</h5> Shape";
+		} else if (tracking === "or") {
+			document.querySelector('or-value').innerHTML = " and <h5>" + 
+			document.querySelector('.variable-value').innerHTML + 
+			"</h5> Orientation";
+		} else if (tracking === "co") {
+			document.querySelector('co-value').innerHTML = " and <h5>" + 
+			document.querySelector('.variable-value').innerHTML + 
+			"</h5> Color";
+		};
+	}
+
+	if (document.querySelector('#output-message').textContent != "") {
+		fillOutputAnds()
+	} else {
+		fillOutput();
+	}
+	
+	
+})
 
 var slider = document.querySelector('slider-holder');
 var gradient = document.querySelector('gradient-slider');

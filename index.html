@@ -353,7 +353,31 @@ for(i=0;i<buttons.length;i++) {
 			document.querySelector('.variable-name').textContent = 'Orientation';
 		} else if (tracking === "co") {
 			document.querySelector('.variable-name').textContent = 'Color';
-		};
+		} else if (tracking === "tx") {
+			document.querySelector('.variable-name').textContent = 'Texture';
+		} else if (tracking === "va") {
+			document.querySelector('.variable-name').textContent = 'Value';
+		} else if (tracking === "sz") {
+			document.querySelector('.variable-name').textContent = 'Size';
+		} else if (tracking === "pt") {
+			document.querySelector('.variable-name').textContent = 'Point';
+		} else if (tracking === "ln") {
+			document.querySelector('.variable-name').textContent = 'Line';
+		} else if (tracking === "ar") {
+			document.querySelector('.variable-name').textContent = 'Area';
+		} else if (tracking === "rp") {
+			document.querySelector('.variable-name').textContent = 'Representational';
+		} else if (tracking === "sp") {
+			document.querySelector('.variable-name').textContent = 'Spatial';
+		} else if (tracking === "kn") {
+			document.querySelector('.variable-name').textContent = 'Kinetic';
+		} else if (tracking === "rf") {
+			document.querySelector('.variable-name').textContent = 'Reflection';
+		} else if (tracking === "mp") {
+			document.querySelector('.variable-name').textContent = 'Map';
+		} else if (tracking === "ht") {
+			document.querySelector('.variable-name').textContent = 'Has Text';
+		}
 	}
 }
 
@@ -365,53 +389,24 @@ close.addEventListener("click", function () {
 	document.querySelector('bg-overlay').style.display="none";
 
 	function fillOutput() {
-
-		if (tracking === "pl") {
-			document.querySelector('pl-value').innerHTML = "<h5>" + 
+		var name = document.querySelector('.variable-name').innerHTML;
+		document.querySelector(tracking+'-value').innerHTML =  "<h5>" + 
 			document.querySelector('.variable-value').innerHTML + 
-			"</h5> Placement";
-		} else if (tracking === "sh") {
-			document.querySelector('sh-value').innerHTML = "<h5>" + 
-			document.querySelector('.variable-value').innerHTML + 
-			"</h5> Shape";
-		} else if (tracking === "or") {
-			document.querySelector('or-value').innerHTML = "<h5>" + 
-			document.querySelector('.variable-value').innerHTML + 
-			"</h5> Orientation";
-		} else if (tracking === "co") {
-			document.querySelector('co-value').innerHTML = "<h5>" + 
-			document.querySelector('.variable-value').innerHTML + 
-			"</h5> Color";
-		};
-	}
+			"</h5> " + name;
+	};
 
 	function fillOutputAnds() {
-
-		if (tracking === "pl") {
-			document.querySelector('pl-value').innerHTML = "<h5>" + 
+		var name = document.querySelector('.variable-name').innerHTML;
+		document.querySelector(tracking+'-value').innerHTML =  "<h5>" + 
 			document.querySelector('.variable-value').innerHTML + 
-			"</h5> Placement and ";
-		} else if (tracking === "sh") {
-			document.querySelector('sh-value').innerHTML = " and <h5>" + 
-			document.querySelector('.variable-value').innerHTML + 
-			"</h5> Shape";
-		} else if (tracking === "or") {
-			document.querySelector('or-value').innerHTML = " and <h5>" + 
-			document.querySelector('.variable-value').innerHTML + 
-			"</h5> Orientation";
-		} else if (tracking === "co") {
-			document.querySelector('co-value').innerHTML = " and <h5>" + 
-			document.querySelector('.variable-value').innerHTML + 
-			"</h5> Color";
-		};
-	}
+			"</h5> " + name + " and " ;
+	};
 
 	if (document.querySelector('#output-message').textContent != "") {
 		fillOutputAnds()
 	} else {
 		fillOutput();
-	}
-	
+	};
 	
 })
 
@@ -434,18 +429,6 @@ slider.onscroll = function () {
 		document.querySelector('.variable-value').textContent = 'Somewhat Weak';
 	};
 }
-
-// // Submit button: on change, get new data count
-// var s = document.getElementById("submit");
-
-// s.addEventListener("click", function() {
-
-// 	if (s.innerHTML === "Hello") {
-// 		s.innerHTML = "Change now";
-// 	} else {
-// 		s.innerHTML = "Hello";
-// 	}
-// });
 
 </script>
 

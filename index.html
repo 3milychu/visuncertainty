@@ -179,6 +179,11 @@ customElements.define('buttons-module', class extends HTMLElement {
 	    	height:20%;
 	    	margin:2%;
 		  }
+		  ::slotted( calc-buttons:hover ){
+		  	background-color:black;
+		  	opacity:0.5;
+		  	color:white;
+		  }
 		</style>
 		<slot></slot>
 		`;
@@ -323,30 +328,14 @@ d3.select('buttons-module').selectAll("buttons-module")
 	.append('calc-buttons')
 	.attr("id", function(d) {return d.id})
 	.style("cursor", "pointer")
+	.text(function(d) {return d.id})
 	.on("click", lightboxOn)
-	.on("mouseenter", buttonHover)
-	.on("mouseleave", buttonOut)
 	.exit()
 
 
 function lightboxOn() {
 	document.querySelector('slider-lightbox').style.display="inline-block";
 	document.querySelector('bg-overlay').style.display="block";
-}
-
-
-function buttonHover() {
-	d3.select(this)
-		// .transition()
-		.style("background-color", "black")
-		.style("opacity", 0.5);
-}
-
-function buttonOut() {
-	d3.select(this)
-		// .transition()
-		.style("background-color", "white")
-		.style("opacity", 1);
 }
 
 // When click on buttons, ID stores as value

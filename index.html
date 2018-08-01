@@ -24,12 +24,13 @@ header {
 	background-color:white;
 	width:80%;
 	height:auto;
-	padding: 5% 10% 5% 10%;
+	padding: 3% 5% 3% 5%;
 }
 
 site-logo {
+	font-size:0.8em;
 	border:0.3em solid orange;
-	padding:1.5%;
+	padding:1%;
 	color: black;
 	letter-spacing:0.2em;
 	text-transform:uppercase;
@@ -39,9 +40,8 @@ site-logo {
 
 nav {
 	float:right;
-	font-size:3em;
-	margin-top:-2%;
-	vertical-align:top;
+	font-size:2em;
+	margin-top:-1%;
 }
 
 selected-variable h1 {
@@ -142,8 +142,9 @@ customElements.define('custom-calculator', class extends HTMLElement {
 
     ::slotted( buttons-module ){
     	display:inline-block;
-    	width: 49%;
+    	width: 39%;
     	height:80vh;
+    	padding:5% 2% 5% 6%;
     	vertical-align:top;
     }
 
@@ -196,7 +197,7 @@ customElements.define('bg-overlay', class extends HTMLElement {
 			position:absolute;
 			display:none;
 			width:100%;
-			height:110vh;
+			height:125vh;
 			background-color:black;
 			opacity:0.5;
 		}

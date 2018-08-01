@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+	<title>Visualize Uncertainty Sketches</title>
+	<script src="https://d3js.org/d3.v4.min.js" charset="utf-8"></script>
+	<link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Open+Sans">
+	<meta name="viewport" content="width=device-width">
+</head>
+
+<!-- Stylesheet -->
+<style>
+
+html, body {
+	top:0;
+	left:0;
+	padding:0;
+	width:100%;
+	margin:0;
+	font-family: 'Open Sans', sans-serif;
+}
+header {
+	background-color:white;
+	width:80%;
+	height:auto;
+	padding: 5% 10% 5% 10%;
+}
+
+site-logo {
+	border:0.3em solid orange;
+	padding:1.5%;
+	color: black;
+	letter-spacing:0.2em;
+	text-transform:uppercase;
+	font-weight:600;
+	vertical-align:bottom;
+}
+
+nav {
+	float:right;
+	font-size:3em;
+	margin-top:-2%;
+	vertical-align:top;
+}
+
+output-screen h1{
+	padding-left:5%;
+}
+
+output-screen p {
+	padding-left:5%;
+}
+
+selected-variable h1 {
+	font-size:1em;
+	text-transform:uppercase;
+	letter-spacing:0.05em;
+	color:grey;
+	line-height:1em;
+}
+selected-variable h2{
+	font-size:2em;
+	padding:0;
+	margin:0;
+	font-weight:600;
+	width:80%;
+	line-height:1em;
+	transition: 0.5s ease;
+
+}
+
+</style>
+
+<!-- Body Markup -->
+<body>
+
+	<bg-overlay></bg-overlay>
+
+	<header>
+		<site-logo>Uncertainty</site-logo>
+		<nav>&#9776;</nav>
+	</header>
+
+	<slider-lightbox>
+		<selected-variable>
+			<h1 class="variable-name"></h1>
+			<h2 class="variable-value"></h1>
+		</selected-variable>
+		<slider-holder>
+			<gradient-slider></gradient-slider>
+		</slider-holder>
+		<save-close>Save</save-close>
+	</slider-lightbox>
+
+	<custom-calculator id="calculator">
+		<output-screen>
+			<p>
+			<h1>Show Me </h1>
+			<pl-value></pl-value>
+			<sh-value></sh-value>
+			<or-value></or-value>
+			<co-value></co-value>
+			</p>
+		</output-screen>
+		<buttons-module></buttons-module>
+	</custom-calculator>
+
+
+
+</body>
+
+
+<!-- Script -->
+<script>
+
+//Create custom HTML Elements
+
+
+customElements.define('site-logo', class extends HTMLElement {
+})
+
+customElements.define('custom-calculator', class extends HTMLElement {
+	constructor() { 
+		super();
+		this.attachShadow({mode:'open'}).innerHTML=`
+  <style>
+    :host {
+    	display:inline-block;
+    	background-color:grey;
+    	width:100%;
+    	height:100%;;
+    }
+
+    ::slotted( output-screen ){
+    	display:inline-block;
+    	background-color:orange;
+    	width:50%;
+    	height:85vh;
+    }
+
+    ::slotted( buttons-module ){
+    	display:inline-block;
+    	width: 49.5%;
+    	height:80vh;
+    	vertical-align:top;
+    }
+
+    @media screen and (max-width:900px){
+    	::slotted( output-screen ){
+    	width:100%;
+    }
+
+    ::slotted( buttons-module ){
+    	width:100%;
+    }
+    }
+
+  </style>
+  <slot></slot>
+  `;
+	};
+})
+
+customElements.define('output-screen', class extends HTMLElement {
+})
+
+customElements.define('buttons-module', class extends HTMLElement {
+	constructor () {
+		super();
+		this.attachShadow({mode:"open"}).innerHTML = `
+		<style>
+		  ::slotted( calc-buttons ){
+		  	display: inline-block;
+	    	background-color: #F2F2F2;
+	    	width:20%;
+	    	height:20%;
+	    	margin:2%;
+		  }
+		</style>
+		<slot></slot>
+		`;
+	}
+})
+
+customElements.define('calc-buttons', class extends HTMLElement {
+})
+
+customElements.define('bg-overlay', class extends HTMLElement {
+	constructor() {
+		super();
+		this.attachShadow({mode:"open"}).innerHTML = `
+		<style>
+		:host {
+			position:absolute;
+			display:none;
+			width:100%;
+			height:110vh;
+			background-color:black;
+			opacity:0.5;
+		}
+		</style>
+		`;
+	}
+})
+
+customElements.define('slider-lightbox', class extends HTMLElement {
+	constructor() {
+		super();
+		this.attachShadow({mode:"open"}).innerHTML = `
+		<style>
+		:host {
+			display:none;
+			position:absolute;
+			width:80%;
+			margin: 10%;
+			height:50vh;
+			background-color:black;
+			overflow:hidden;
+		}
+		</style>
+		<slot></slot>
+		`;
+	}
+})
+
+customElements.define('save-close', class extends HTMLElement {
+	constructor() {
+		super();
+		this.attachShadow({mode:"open"}).innerHTML = `
+		<style>
+		:host {
+			position:absolute;
+			right:0;
+			bottom:0;
+			font-size:2em;
+			font-weight:100;
+			padding:5%;
+			color:white;
+			cursor:pointer;
+		}
+		:host(:hover) {
+			color:orange;
+		}
+		</style>
+		<slot></slot>
+		`;
+	}
+})
+
+customElements.define('selected-variable', class extends HTMLElement {
+	constructor(){
+		super();
+		this.attachShadow({mode:"open"}).innerHTML=`
+		<style>
+		:host {
+			color:white;
+			font-size:1em;
+			float:left;
+			width:30%;
+			padding:2%;
+		}
+		</style>
+		<slot></slot>
+		`;
+	}
+})
+
+customElements.define('slider-holder', class extends HTMLElement {
+	constructor() {
+		super();
+		this.attachShadow({mode:"open"}).innerHTML = `
+		<style>
+		:host {
+			display:inline-block;
+			width:30%;
+			height:100%;
+			overflow-y:scroll;
+		}
+		::slotted(gradient-slider){
+			display:inline-block;
+			margin:auto;
+			width:100%;
+			height:300%;
+			background:linear-gradient(orange,white);
+		}
+		</style>
+		<slot></slot>
+		`;
+	}
+})
+
+customElements.define('gradient-slider', class extends HTMLElement {
+})
+
+// Create buttons for visual variables
+data = [
+	{"id": "pl"},
+	 {"id": "sh"},
+	 {"id": "or"},
+	 {"id": "co"},
+	 {"id": "tx"},
+	 {"id": "va"},
+	 {"id": "sz"},
+	 {"id": "pt"},
+	 {"id": "ln"},
+	 {"id": "ar"},
+	 {"id": "rp"},
+	 {"id": "sp"},
+	 {"id": "kn"},
+	 {"id": "rf"},
+	 {"id": "mp"},
+	 {"id": "ht"},
+	 // {"id": "submit"}
+]
+
+// Calc-buttons behavior
+d3.select('buttons-module').selectAll("buttons-module")
+	.data(data)
+	.enter()
+	.append('calc-buttons')
+	.attr("id", function(d) {return d.id})
+	.style("cursor", "pointer")
+	.on("click", lightboxOn)
+	.on("mouseenter", buttonHover)
+	.on("mouseleave", buttonOut)
+	.exit()
+
+
+function lightboxOn() {
+	document.querySelector('slider-lightbox').style.display="inline-block";
+	document.querySelector('bg-overlay').style.display="block";
+}
+
+var close = document.querySelector('save-close');
+close.addEventListener("click", function () {
+	document.querySelector('slider-lightbox').style.display="none";
+	document.querySelector('bg-overlay').style.display="none";
+	document.querySelector('pl-value').textContent = document.querySelector('.variable-value').innerHTML + " Placement";
+})
+
+function buttonHover() {
+	d3.select(this)
+		// .transition()
+		.style("background-color", "black")
+		.style("opacity", 0.5);
+}
+
+function buttonOut() {
+	d3.select(this)
+		// .transition()
+		.style("background-color", "white")
+		.style("opacity", 1);
+}
+
+// When click on buttons, ID stores as value
+var buttons = document.getElementsByTagName('calc-buttons');
+for(i=0;i<buttons.length;i++) {
+	buttons[i].onclick=function () {
+		value = this.id;
+		console.log(value);
+		if (value === "pl") {
+			document.querySelector('.variable-name').textContent = 'Placement';
+		} else if (value === "sh") {
+			document.querySelector('.variable-name').textContent = 'Shape';
+		} else if (value === "or") {
+			document.querySelector('.variable-name').textContent = 'Orientation';
+		} else if (value === "co") {
+			document.querySelector('.variable-name').textContent = 'Color';
+		}
+		;
+	}
+}
+
+var slider = document.querySelector('slider-holder');
+var gradient = document.querySelector('gradient-slider');
+slider.onscroll = function () {
+	// console.log(this.scrollTop)
+	value = this.scrollTop;
+	maxValue = 477;
+	binSize = 477/5
+	if (value < binSize){
+		document.querySelector('.variable-value').textContent = 'Extremely Strong';
+	} else if (value > binSize & value < binSize*2){
+		document.querySelector('.variable-value').textContent = 'Very Strong';
+	} else if (value > binSize*2 & value < binSize*3){
+		document.querySelector('.variable-value').textContent = 'Somewhat Strong';
+	} else if (value > binSize*3 & value < binSize*4){
+		document.querySelector('.variable-value').textContent = 'Slightly Weak';
+	} else if (value > binSize*4 & value < binSize*5){
+		document.querySelector('.variable-value').textContent = 'Somewhat Weak';
+	};
+}
+
+// // Submit button: on change, get new data count
+// var s = document.getElementById("submit");
+
+// s.addEventListener("click", function() {
+
+// 	if (s.innerHTML === "Hello") {
+// 		s.innerHTML = "Change now";
+// 	} else {
+// 		s.innerHTML = "Hello";
+// 	}
+// });
+
+</script>
+
+
+</html>

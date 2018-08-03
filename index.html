@@ -92,6 +92,10 @@ output-screen h1, p {
 	header {
 		padding: 12.5% 5%;
 	}
+	#output-count {
+		position:relative;
+		padding-top:5%;
+	}
 }
 
 </style>
@@ -176,7 +180,8 @@ customElements.define('custom-calculator', class extends HTMLElement {
     @media screen and (max-width:900px){
     	::slotted( output-screen ){
     	width:100%;
-    	height:35vh;
+    	min-height:35vh;
+    	height:auto;
     }
 
     ::slotted( buttons-module ){
@@ -550,21 +555,39 @@ close.addEventListener("click", function () {
 var slider = document.querySelector('slider-holder');
 var gradient = document.querySelector('gradient-slider');
 slider.onscroll = function () {
-	// console.log(this.scrollTop)
-	value = this.scrollTop;
-	maxValue = 477;
-	binSize = 477/5
-	if (value < binSize){
-		document.querySelector('.variable-value').textContent = 'Extremely Strong';
-	} else if (value > binSize & value < binSize*2){
-		document.querySelector('.variable-value').textContent = 'Very Strong';
-	} else if (value > binSize*2 & value < binSize*3){
-		document.querySelector('.variable-value').textContent = 'Somewhat Strong';
-	} else if (value > binSize*3 & value < binSize*4){
-		document.querySelector('.variable-value').textContent = 'Slightly Weak';
-	} else if (value > binSize*4 & value < binSize*5){
-		document.querySelector('.variable-value').textContent = 'Somewhat Weak';
-	};
+
+	if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
+		// console.log(this.scrollLeft)
+		value = this.scrollLeft;
+		maxValue = 600;
+		binSize = maxValue/5
+		if (value < binSize){
+			document.querySelector('.variable-value').textContent = 'Extremely Strong';
+		} else if (value > binSize & value < binSize*2){
+			document.querySelector('.variable-value').textContent = 'Very Strong';
+		} else if (value > binSize*2 & value < binSize*3){
+			document.querySelector('.variable-value').textContent = 'Somewhat Strong';
+		} else if (value > binSize*3 & value < binSize*4){
+			document.querySelector('.variable-value').textContent = 'Slightly Weak';
+		} else if (value > binSize*4 & value < binSize*5){
+			document.querySelector('.variable-value').textContent = 'Somewhat Weak';
+		};
+	} else {
+		value = this.scrollLeft;
+		maxValue = 477;
+		binSize = maxValue/5
+		if (value < binSize){
+			document.querySelector('.variable-value').textContent = 'Extremely Strong';
+		} else if (value > binSize & value < binSize*2){
+			document.querySelector('.variable-value').textContent = 'Very Strong';
+		} else if (value > binSize*2 & value < binSize*3){
+			document.querySelector('.variable-value').textContent = 'Somewhat Strong';
+		} else if (value > binSize*3 & value < binSize*4){
+			document.querySelector('.variable-value').textContent = 'Slightly Weak';
+		} else if (value > binSize*4 & value < binSize*5){
+			document.querySelector('.variable-value').textContent = 'Somewhat Weak';
+		};
+	}
 }
 
 

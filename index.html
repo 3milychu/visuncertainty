@@ -24,7 +24,7 @@ header {
 	background-color:white;
 	width:80%;
 	height:auto;
-	padding: 3% 5% 3% 5%;
+	padding: 5%;
 }
 
 site-logo {
@@ -74,16 +74,24 @@ h5 {
 }
 
 #output-count {
+	position:absolute;
 	color:white;
 	text-decoration:underline;
 	float:right;
-	padding-right:5%;
+	bottom:0;
+	right:0;
 
 }
 
 output-screen h1, p {
 	padding-left:5%;
 	padding-right:5%;
+}
+
+@media screen and (max-width:900px) {
+	header {
+		padding: 12.5% 5%;
+	}
 }
 
 </style>
@@ -150,10 +158,12 @@ customElements.define('custom-calculator', class extends HTMLElement {
     }
 
     ::slotted( output-screen ){
+    	z-index:0;
+    	position:relative;
     	display:inline-block;
     	background-color:orange;
     	width:50%;
-    	height:100vh;
+    	height:80vh;
     }
 
     ::slotted( buttons-module ){
@@ -166,7 +176,7 @@ customElements.define('custom-calculator', class extends HTMLElement {
     @media screen and (max-width:900px){
     	::slotted( output-screen ){
     	width:100%;
-    	height:50vh;
+    	height:35vh;
     }
 
     ::slotted( buttons-module ){
@@ -193,7 +203,6 @@ customElements.define('buttons-module', class extends HTMLElement {
 		  	display: inline-block;
 	    	background-color: #F9C587;
 	    	width:20%;
-	    	height:18%;
 	    	margin:2.5%;
 	    	font-size:3em;
 	    	font-weight:600;
@@ -201,8 +210,13 @@ customElements.define('buttons-module', class extends HTMLElement {
 		  }
 		  ::slotted( calc-buttons:hover ){
 		  	background-color:white;
-		  	color:#F9C587;
+		  	color:orange;
 		  }
+		 @media screen and (max-width:900px){
+		 	::slotted( calc-buttons ){
+		 		font-size:2em;
+		 	}
+		 }
 		</style>
 		<slot></slot>
 		`;
@@ -218,6 +232,7 @@ customElements.define('bg-overlay', class extends HTMLElement {
 		this.attachShadow({mode:"open"}).innerHTML = `
 		<style>
 		:host {
+			z-index:1;
 			position:fixed;
 			display:none;
 			width:100%;
@@ -237,12 +252,19 @@ customElements.define('slider-lightbox', class extends HTMLElement {
 		<style>
 		:host {
 			display:none;
-			position:absolute;
+			position:fixed;
+			z-index:2;
 			width:80%;
-			margin: 10%;
+			margin: 5% 3% 5% 8%;
 			height:50vh;
 			background-color:black;
 			overflow:hidden;
+		}
+		@media screen and (max-width:900px){
+			:host {
+				margin-top:0%;
+				height:70vh;
+			}
 		}
 		</style>
 		<slot></slot>
@@ -310,6 +332,21 @@ customElements.define('slider-holder', class extends HTMLElement {
 			height:300%;
 			background:linear-gradient(orange,white);
 		}
+		@media screen and (max-width:900px) {
+			:host {
+				position:relative;
+				width:100%;
+				height:30%;
+				padding-top:30%;
+				overflow-x:scroll;
+				overflow-y:hidden;
+			}
+			::slotted( gradient-slider ){
+				width:300%;
+				height:100%;
+				background:linear-gradient(to right, orange, white);
+			}
+		}
 		</style>
 		<slot></slot>
 		`;
@@ -368,6 +405,7 @@ d3.select('buttons-module').selectAll("buttons-module")
 	.text(function(d) {return d.id})
 	.style("text-align", "center")
 	.style("padding-top", "3%")
+	.style("padding-bottom", "3%")
 	.on("click", lightboxOn)
 	.exit()
 
@@ -382,6 +420,7 @@ var buttons = document.getElementsByTagName('calc-buttons');
 for(i=0;i<buttons.length;i++) {
 	buttons[i].onclick=function () {
 
+		document.querySelector('html').style.position="fixed";
 		tracking = this.id;
 
 		if (tracking === "pl") {
@@ -423,6 +462,8 @@ for(i=0;i<buttons.length;i++) {
 // When click on save and close, send values to output screen
 var close = document.querySelector('save-close');
 close.addEventListener("click", function () {
+
+	document.querySelector('html').style.position="relative";
 
 	document.querySelector('slider-lightbox').style.display="none";
 	document.querySelector('bg-overlay').style.display="none";

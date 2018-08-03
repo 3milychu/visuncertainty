@@ -417,12 +417,10 @@ customElements.define('slider-holder', class extends HTMLElement {
 		}
 		@media screen and (max-width:900px) {
 			:host {
-				position:relative;
 				width:100%;
 				height:30%;
 				padding-top:30%;
 				overflow-x:scroll;
-				 -webkit-overflow-scrolling: touch;
 				overflow-y:hidden;
 			}
 			::slotted( gradient-slider ){
@@ -660,8 +658,8 @@ function updateData () {
 				        return a && (obj[f.key] === f.value);
 				    }, true);
 				});
-
-				console.log(df.length);
+				// console.log(df.length);
+				console.log(df);
 				document.querySelector('#output-count').innerHTML = df.length + " Images";
 			}
 		}

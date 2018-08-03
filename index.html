@@ -241,6 +241,7 @@ customElements.define('buttons-module', class extends HTMLElement {
 		  ::slotted( calc-buttons:hover ){
 		  	background-color:white;
 		  	color:#F16E31;
+		  	transition: all 0.25s ease-in-out;
 		  }
 		
 		 @media screen and (max-width:900px){
@@ -326,6 +327,7 @@ customElements.define('close-cancel', class extends HTMLElement {
 		:host(:hover){
 			background-color: #EB2E2F;
 			border: 0.05em #EB2E2F solid;
+			transition: all 0.25s ease-in-out;
 		}
 		
 		@media screen and (max-width:900px) {
@@ -363,6 +365,7 @@ customElements.define('save-close', class extends HTMLElement {
 		}
 		:host(:hover) {
 			color:#EB2E2F;
+			transition: all 0.25s ease-in-out;
 		}
 		@media screen and (max-width:900px) {
 			:host(:active) {
@@ -456,6 +459,7 @@ customElements.define('clear-button', class extends HTMLElement {
 		:host(:hover) {
 			background-color:white;
 			color:#42210B;
+			transition: all 0.25s ease-in-out;
 		}
 		@media screen and (max-width:900px){
 			:host(:active) {

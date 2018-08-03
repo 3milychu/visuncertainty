@@ -29,7 +29,7 @@ header {
 
 site-logo {
 	font-size:0.8em;
-	border:0.3em solid orange;
+	border:0.3em solid #EB2E2F;
 	padding:1%;
 	color: black;
 	letter-spacing:0.2em;
@@ -73,19 +73,30 @@ h5 {
 	vertical-align:top;
 }
 
+#default-message {
+	color:white;
+	font-weight:100;
+	letter-spacing:0.02em;
+}
+
 #output-count {
 	position:absolute;
 	color:white;
 	text-decoration:underline;
 	float:right;
-	bottom:0;
+	bottom:10%;
 	right:0;
 
 }
 
 output-screen h1, p {
-	padding-left:5%;
-	padding-right:5%;
+	padding-left:10%;
+	padding-right:10%;
+}
+
+output-screen h1 {
+	padding-top:10%;
+	font-size:1.5em;
 }
 
 @media screen and (max-width:900px) {
@@ -95,6 +106,14 @@ output-screen h1, p {
 	#output-count {
 		position:relative;
 		padding-top:5%;
+		bottom:0;
+	}
+	output-screen h1, p {
+		padding-left:5%;
+		padding-right:5%;
+	}
+	output-screen h1 {
+		padding-top:0%;
 	}
 }
 
@@ -166,7 +185,7 @@ customElements.define('custom-calculator', class extends HTMLElement {
     	z-index:0;
     	position:relative;
     	display:inline-block;
-    	background-color:orange;
+    	background-color:#EB2E2F;
     	width:50%;
     	height:80vh;
     }
@@ -207,7 +226,7 @@ customElements.define('buttons-module', class extends HTMLElement {
 		<style>
 		  ::slotted( calc-buttons ){
 		  	display: inline-block;
-	    	background-color: #F9C587;
+	    	background-color: #F16E31;
 	    	width:20%;
 	    	margin:2.5%;
 	    	font-size:3em;
@@ -216,7 +235,7 @@ customElements.define('buttons-module', class extends HTMLElement {
 		  }
 		  ::slotted( calc-buttons:hover ){
 		  	background-color:white;
-		  	color:orange;
+		  	color:#F16E31;
 		  }
 		 @media screen and (max-width:900px){
 		 	::slotted( calc-buttons ){
@@ -293,8 +312,8 @@ customElements.define('close-cancel', class extends HTMLElement {
 			color:white;
 		}
 		:host(:hover){
-			background-color: orange;
-			border: 0.05em orange solid;
+			background-color: #EB2E2F;
+			border: 0.05em #EB2E2F solid;
 		}
 		</style>
 		<slot></slot>
@@ -318,7 +337,7 @@ customElements.define('save-close', class extends HTMLElement {
 			cursor:pointer;
 		}
 		:host(:hover) {
-			color:orange;
+			color:#EB2E2F;
 		}
 		</style>
 		<slot></slot>
@@ -360,7 +379,7 @@ customElements.define('slider-holder', class extends HTMLElement {
 			margin:auto;
 			width:100%;
 			height:300%;
-			background:linear-gradient(orange,white);
+			background:linear-gradient(#EB2E2F,#F99873);
 		}
 		@media screen and (max-width:900px) {
 			:host {
@@ -374,7 +393,7 @@ customElements.define('slider-holder', class extends HTMLElement {
 			::slotted( gradient-slider ){
 				width:300%;
 				height:100%;
-				background:linear-gradient(to right, orange, white);
+				background:linear-gradient(to right, #EB2E2F, #F99873);
 			}
 		}
 		</style>
@@ -384,7 +403,33 @@ customElements.define('slider-holder', class extends HTMLElement {
 })
 
 customElements.define('gradient-slider', class extends HTMLElement {
-})
+});
+
+customElements.define('clear-button', class extends HTMLElement {
+	constructor() {
+		super();
+		this.attachShadow({mode:"open"}).innerHTML = `
+		<style>
+		:host {
+			font-size:0.05em;
+			background-color:#42210B;
+			margin:1% 2%;
+			padding:0.5% 2% 1% 1.5%;
+			border-radius:1em;
+			color:white;
+			font-weight:700;
+			vertical-align:middle;
+			cursor:pointer;
+		}
+		:host(:hover) {
+			background-color:white;
+			color:#42210B;
+		}
+		</style>
+		<slot></slot>
+		`;
+	}
+});
 
 // Create buttons for visual variables
 data = [
@@ -417,6 +462,7 @@ for(i=0;i<data.length;i++) {
 			:host {
 				display:block;
 				line-height:1.5em;
+				letter-spacing:0.02em;
 			}
 			</style>
 			<slot></slot>
@@ -513,12 +559,15 @@ close.addEventListener("click", function () {
 		var name = document.querySelector('.variable-name').innerHTML;
 		document.querySelector(tracking+'-value').innerHTML =  "<h5>" + 
 			document.querySelector('.variable-value').innerHTML + 
-			"</h5> " + name;
+			"</h5> " + name + "<clear-button>x</clear-button>";
 
 	};
 
 	fillOutput();
+	updateData();
+})
 
+function updateData () {
 	// Store saved values and return images
 
 	directory = [];
@@ -573,6 +622,20 @@ close.addEventListener("click", function () {
 				document.querySelector('#output-count').innerHTML = df.length + " Images";
 			}
 		}
+
+}
+
+// When click on clear, clear content inside parent element
+document.body.addEventListener("click", function () {
+	var clearButtons = document.getElementsByTagName('clear-button');
+	for (i=0;i<clearButtons.length;i++){
+		clearButtons[i].onclick=function() {
+			parentID = this.parentElement.nodeName;
+			document.querySelector(parentID).innerHTML="";
+			updateData();
+		}
+	}
+
 })
 
 // Slider bins

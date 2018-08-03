@@ -239,7 +239,7 @@ customElements.define('buttons-module', class extends HTMLElement {
 		  	background-color:white;
 		  	color:#F16E31;
 		  }
-		  ::slotted( calc-buttons:active ){
+		  ::slotted( calc-buttons:focus ){
 		  	background-color:white;
 		  	color:#F16E31;
 		  }
@@ -323,7 +323,7 @@ customElements.define('close-cancel', class extends HTMLElement {
 			background-color: #EB2E2F;
 			border: 0.05em #EB2E2F solid;
 		}
-		:host(:active){
+		:host(:focus){
 			background-color: #EB2E2F;
 			border: 0.05em #EB2E2F solid;
 		}
@@ -359,7 +359,7 @@ customElements.define('save-close', class extends HTMLElement {
 		:host(:hover) {
 			color:#EB2E2F;
 		}
-		:host(:active) {
+		:host(:focus) {
 			color:#EB2E2F;
 		}
 		</style>
@@ -449,7 +449,7 @@ customElements.define('clear-button', class extends HTMLElement {
 			background-color:white;
 			color:#42210B;
 		}
-		:host(:active) {
+		:host(:focus) {
 			background-color:white;
 			color:#42210B;
 		}

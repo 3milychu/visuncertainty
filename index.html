@@ -60,7 +60,6 @@ selected-variable h2{
 	width:80%;
 	line-height:1em;
 	transition: 0.5s ease;
-
 }
 
 h5 {
@@ -114,6 +113,9 @@ output-screen h1 {
 	}
 	output-screen h1 {
 		padding-top:0%;
+	}
+	selected-variable {
+		padding-left:5%;
 	}
 }
 
@@ -314,6 +316,7 @@ customElements.define('close-cancel', class extends HTMLElement {
 			margin-top:3%;
 			font-size:0.8em;
 			float:right;
+			cursor:pointer;
 			color:white;
 		}
 		:host(:hover){
@@ -323,6 +326,14 @@ customElements.define('close-cancel', class extends HTMLElement {
 		:host(:active){
 			background-color: #EB2E2F;
 			border: 0.05em #EB2E2F solid;
+		}
+		@media screen and (max-width:900px) {
+			:host {
+				margin-right:5%;
+				margin-top:5%;
+				padding:3% 4%;
+				font-size:1em;
+			}
 		}
 		</style>
 		<slot></slot>

@@ -111,6 +111,7 @@ output-screen h1, p {
 	</header>
 
 	<slider-lightbox>
+		<close-cancel>X</close-cancel>
 		<selected-variable>
 			<h1 class="variable-name"></h1>
 			<h2 class="variable-value"></h1>
@@ -124,7 +125,7 @@ output-screen h1, p {
 	<custom-calculator id="calculator">
 		<output-screen>
 			<h1>Show Me</h1>
-			<p id="output-message"><pl-value></pl-value><sh-value></sh-value><or-value></or-value><co-value></co-value><tx-value></tx-value><va-value></va-value><sz-value></sz-value><pt-value></pt-value><ln-value></ln-value><ar-value></ar-value><rp-value></rp-value><sp-value></sp-value><kn-value></kn-value><rf-value></rf-value><mp-value></mp-value><ht-value></ht-value></p>
+			<p id="output-message"><text id="default-message">Set some variables to start calculating!</text><pl-value></pl-value><sh-value></sh-value><or-value></or-value><co-value></co-value><tx-value></tx-value><va-value></va-value><sz-value></sz-value><pt-value></pt-value><ln-value></ln-value><ar-value></ar-value><rp-value></rp-value><sp-value></sp-value><kn-value></kn-value><rf-value></rf-value><mp-value></mp-value><ht-value></ht-value></p>
 				<h1 id="output-count"></h1>
 		</output-screen>
 		<buttons-module></buttons-module>
@@ -270,6 +271,30 @@ customElements.define('slider-lightbox', class extends HTMLElement {
 				margin-top:0%;
 				height:70vh;
 			}
+		}
+		</style>
+		<slot></slot>
+		`;
+	}
+})
+
+customElements.define('close-cancel', class extends HTMLElement {
+	constructor() {
+		super();
+		this.attachShadow({mode:"open"}).innerHTML = `
+		<style>
+		:host {
+			border: 0.05em white solid;
+			padding:1% 2%;
+			margin-right:3%;
+			margin-top:3%;
+			font-size:0.8em;
+			float:right;
+			color:white;
+		}
+		:host(:hover){
+			background-color: orange;
+			border: 0.05em orange solid;
 		}
 		</style>
 		<slot></slot>
@@ -464,6 +489,16 @@ for(i=0;i<buttons.length;i++) {
 	}
 }
 
+// When click on close-cancel, don't save any output
+var cancel = document.querySelector('close-cancel');
+cancel.addEventListener("click", function () {
+
+	document.querySelector('html').style.position="relative";
+
+	document.querySelector('slider-lightbox').style.display="none";
+	document.querySelector('bg-overlay').style.display="none";
+})
+
 // When click on save and close, send values to output screen
 var close = document.querySelector('save-close');
 close.addEventListener("click", function () {
@@ -474,26 +509,15 @@ close.addEventListener("click", function () {
 	document.querySelector('bg-overlay').style.display="none";
 
 	function fillOutput() {
+		document.querySelector("#default-message").textContent = "";
 		var name = document.querySelector('.variable-name').innerHTML;
 		document.querySelector(tracking+'-value').innerHTML =  "<h5>" + 
 			document.querySelector('.variable-value').innerHTML + 
 			"</h5> " + name;
+
 	};
 
 	fillOutput();
-
-	// function fillOutputAnds() {
-	// 	var name = document.querySelector('.variable-name').innerHTML;
-	// 	document.querySelector(tracking+'-value').innerHTML =  "<h5>" + 
-	// 		document.querySelector('.variable-value').innerHTML + 
-	// 		"</h5> " + name + " and " ;
-	// };
-
-	// if (document.querySelector('#output-message').textContent != "") {
-	// 	fillOutputAnds()
-	// } else {
-	// 	fillOutput();
-	// };
 
 	// Store saved values and return images
 
@@ -573,7 +597,7 @@ slider.onscroll = function () {
 			document.querySelector('.variable-value').textContent = 'Somewhat Weak';
 		};
 	} else {
-		value = this.scrollLeft;
+		value = this.scrollTop;
 		maxValue = 477;
 		binSize = maxValue/5
 		if (value < binSize){

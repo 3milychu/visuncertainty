@@ -242,14 +242,15 @@ customElements.define('buttons-module', class extends HTMLElement {
 		  	background-color:white;
 		  	color:#F16E31;
 		  }
-		  ::slotted( calc-buttons:focus ){
-		  	background-color:white;
-		  	color:#F16E31;
-		  }
+		
 		 @media screen and (max-width:900px){
 		 	::slotted( calc-buttons ){
 		 		font-size:2em;
 		 	}
+		 	::slotted( calc-buttons:active ){
+		  	background-color:white;
+		  	color:#F16E31;
+		  }
 
 		 }
 		</style>
@@ -326,16 +327,17 @@ customElements.define('close-cancel', class extends HTMLElement {
 			background-color: #EB2E2F;
 			border: 0.05em #EB2E2F solid;
 		}
-		:host(:focus){
-			background-color: #EB2E2F;
-			border: 0.05em #EB2E2F solid;
-		}
+		
 		@media screen and (max-width:900px) {
 			:host {
 				margin-right:5%;
 				margin-top:5%;
 				padding:3% 4%;
 				font-size:1em;
+			}
+			:host(:active){
+			background-color: #EB2E2F;
+			border: 0.05em #EB2E2F solid;
 			}
 		}
 		</style>
@@ -362,9 +364,12 @@ customElements.define('save-close', class extends HTMLElement {
 		:host(:hover) {
 			color:#EB2E2F;
 		}
-		:host(:focus) {
+		@media screen and (max-width:900px) {
+			:host(:active) {
 			color:#EB2E2F;
+			}
 		}
+		
 		</style>
 		<slot></slot>
 		`;
@@ -452,10 +457,13 @@ customElements.define('clear-button', class extends HTMLElement {
 			background-color:white;
 			color:#42210B;
 		}
-		:host(:focus) {
+		@media screen and (max-width:900px){
+			:host(:active) {
 			background-color:white;
 			color:#42210B;
+			}
 		}
+		
 		</style>
 		<slot></slot>
 		`;

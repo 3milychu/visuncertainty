@@ -187,7 +187,7 @@ customElements.define('custom-calculator', class extends HTMLElement {
     	display:inline-block;
     	background-color:#EB2E2F;
     	width:50%;
-    	height:80vh;
+    	height:85vh;
     }
 
     ::slotted( buttons-module ){
@@ -237,10 +237,15 @@ customElements.define('buttons-module', class extends HTMLElement {
 		  	background-color:white;
 		  	color:#F16E31;
 		  }
+		  ::slotted( calc-buttons:active ){
+		  	background-color:white;
+		  	color:#F16E31;
+		  }
 		 @media screen and (max-width:900px){
 		 	::slotted( calc-buttons ){
 		 		font-size:2em;
 		 	}
+
 		 }
 		</style>
 		<slot></slot>
@@ -315,6 +320,10 @@ customElements.define('close-cancel', class extends HTMLElement {
 			background-color: #EB2E2F;
 			border: 0.05em #EB2E2F solid;
 		}
+		:host(:active){
+			background-color: #EB2E2F;
+			border: 0.05em #EB2E2F solid;
+		}
 		</style>
 		<slot></slot>
 		`;
@@ -337,6 +346,9 @@ customElements.define('save-close', class extends HTMLElement {
 			cursor:pointer;
 		}
 		:host(:hover) {
+			color:#EB2E2F;
+		}
+		:host(:active) {
 			color:#EB2E2F;
 		}
 		</style>
@@ -422,6 +434,10 @@ customElements.define('clear-button', class extends HTMLElement {
 			cursor:pointer;
 		}
 		:host(:hover) {
+			background-color:white;
+			color:#42210B;
+		}
+		:host(:active) {
 			background-color:white;
 			color:#42210B;
 		}

@@ -551,9 +551,10 @@ customElements.define('photo-collage', class extends HTMLElement {
 			display:none;
 			position:relative;
 	    	display:inline-block;
-	    	background-color:white;
+	    	background-color:#EB2E2F;
 	    	width:0%;
 	    	height:auto;
+	    	line-height:0;
 		}
 		</style>
 		<slot></slot>
@@ -573,7 +574,7 @@ customElements.define('img-holder', class extends HTMLElement {
 			max-height:auto;
 			top:0;
 			left:0;
-			line-height:0em;
+			line-height:0px;
 		}
 		::slotted( img ){
 			transition: 1s ease-in-out;

@@ -193,8 +193,7 @@ output-screen h1 {
 <script>
 
 window.onresize = function() {
-	// toggleView();
-	location.reload();
+	toggleView();
 }
 
 //Define global variables
@@ -552,9 +551,9 @@ customElements.define('photo-collage', class extends HTMLElement {
 			display:none;
 			position:relative;
 	    	display:inline-block;
-	    	background-color:#EB2E2F;
+	    	background-color:white;
 	    	width:0%;
-	    	height:75vh;
+	    	height:auto;
 		}
 		</style>
 		<slot></slot>
@@ -571,7 +570,7 @@ customElements.define('img-holder', class extends HTMLElement {
 			display:inline-block;
 			overflow:hidden;
 			width:12.5%;
-			max-height:25vh;
+			max-height:auto;
 			top:0;
 			left:0;
 			line-height:0em;

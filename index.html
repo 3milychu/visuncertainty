@@ -81,10 +81,16 @@ h5 {
 #output-count {
 	position:absolute;
 	color:white;
-	text-decoration:underline;
+	text-decoration:none;
 	float:right;
 	bottom:10%;
 	right:0;
+	cursor:pointer;
+	transition:0.25s ease-in-out;
+}
+
+#output-count:hover {
+	text-decoration:underline;
 
 }
 
@@ -187,7 +193,8 @@ output-screen h1 {
 <script>
 
 window.onresize = function() {
-	toggleView();
+	// toggleView();
+	location.reload();
 }
 
 //Define global variables
@@ -563,8 +570,8 @@ customElements.define('img-holder', class extends HTMLElement {
 		:host {
 			display:inline-block;
 			overflow:hidden;
-			width:25%;
-			max-height:50vh;
+			width:12.5%;
+			max-height:25vh;
 			top:0;
 			left:0;
 			line-height:0em;
@@ -574,6 +581,12 @@ customElements.define('img-holder', class extends HTMLElement {
 			z-index:0;
 			width:120%;
 			cursor:pointer;
+		}
+		@media screen and (max-width:900px){
+			:host {
+				width:25%;
+				max-height:50vh;
+			}
 		}
 		</style>
 		<slot></slot>
@@ -604,6 +617,12 @@ customElements.define('toggle-view', class extends HTMLElement {
 			letter-spacing:0.1em;
 			font-size:0.8em;
 			cursor:pointer;
+			text-decoration:none;
+			transition:0.25s ease-in-out;
+		}
+		::slotted( span:hover ){
+
+			text-decoration:underline;
 		}
 		@media screen and (max-width:900px){
 			:host {
@@ -787,8 +806,9 @@ function updateData () {
 	console.log(directory);
 
 	// Get the data
+	json_path = 'https://raw.githubusercontent.com/aaronxhill/uncertainty/master/art/art.json'
 	var xttp = new XMLHttpRequest();
-	xttp.open("GET", 'https://raw.githubusercontent.com/aaronxhill/uncertainty/master/art/art.json', true);
+	xttp.open("GET", json_path, true);
 	xttp.send();
 	xttp.onreadystatechange = function() {
 		if(this.readyState == 4 && this.status == 200) {
@@ -915,6 +935,8 @@ function toggleView() {
 	var buttons_module = document.querySelector('buttons-module');
 	var toggle = document.querySelector('toggle-view');
 	var toggle_list = document.querySelectorAll('span');
+	var img_holders = document.querySelectorAll('img-holder');
+	var output_count = document.querySelector('#output-count');
 
 	function update() {
 		condition = window.getComputedStyle(output_screen, null).getPropertyValue("display");
@@ -939,7 +961,7 @@ function toggleView() {
 			collage.style.display = "none";
 			collage.style.width = "0%";
 			buttons_module.style.display ="inline-block";
-			toggle.style.width = "100%";
+			toggle.style.width = "100%";		
 			update();
 		})
 
@@ -953,6 +975,16 @@ function toggleView() {
 			update();
 		});
 
+		output_count.addEventListener("click", function() {
+			output_screen.style.width = "0%";
+			output_screen.style.display = "none";
+			collage.style.display = "inline-block";
+			collage.style.width = "100%";
+			buttons_module.style.display ="none";
+			toggle.style.width = "100%";	
+			update();
+		});
+
 	} else {
 
 		span_calc.addEventListener("click", function() {
@@ -962,11 +994,9 @@ function toggleView() {
 			collage.style.width = "0%";
 			buttons_module.style.display="inline-block";
 			toggle.style.width = "50%";
-
 			for(i=0;i<toggle_list.length;i++){
 				toggle_list[i].style.padding = "5%";
 			}
-			
 			update();
 		})
 
@@ -980,7 +1010,19 @@ function toggleView() {
 			for(i=0;i<toggle_list.length;i++){
 				toggle_list[i].style.padding = "3%";
 			}
-			
+			update();
+		});
+
+		output_count.addEventListener("click", function() {
+			output_screen.style.width = "0%";
+			output_screen.style.display = "none";
+			collage.style.display = "inline-block";
+			collage.style.width = "100%";
+			buttons_module.style.display ="none";
+			toggle.style.width = "100%";
+			for(i=0;i<toggle_list.length;i++){
+				toggle_list[i].style.padding = "3%";
+			}			
 			update();
 		});
 

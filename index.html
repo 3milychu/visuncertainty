@@ -553,7 +553,7 @@ customElements.define('photo-collage', class extends HTMLElement {
 	    	display:inline-block;
 	    	background-color:#EB2E2F;
 	    	width:0%;
-	    	height:auto;
+	    	height:85vh;
 	    	line-height:0;
 		}
 		</style>
@@ -571,10 +571,7 @@ customElements.define('img-holder', class extends HTMLElement {
 			display:inline-block;
 			overflow:hidden;
 			width:12.5%;
-			max-height:auto;
-			top:0;
-			left:0;
-			line-height:0px;
+			height:auto;
 		}
 		::slotted( img ){
 			transition: 1s ease-in-out;
@@ -585,7 +582,6 @@ customElements.define('img-holder', class extends HTMLElement {
 		@media screen and (max-width:900px){
 			:host {
 				width:25%;
-				max-height:50vh;
 			}
 		}
 		</style>

@@ -856,7 +856,7 @@ function updateData () {
 	console.log(directory);
 
 	// Get the data
-	json_path = 'https://raw.githubusercontent.com/aaronxhill/uncertainty/master/art/art.json'
+	json_path = 'https://raw.githubusercontent.com/3milychu/visuncertainty/master/data/data.json'
 	var xttp = new XMLHttpRequest();
 	xttp.open("GET", json_path, true);
 	xttp.send();
@@ -887,8 +887,8 @@ function updateData () {
 					.attr("id", function(d) {return d.s_no})
 					.attr("src", function(d) 
 						{return "http://visualizeuncertainty.io/img_cropped/" + d.s_no + ".jpg"})
-					.on("mouseover", zoom)
-					.on("mouseout", zoomout)
+					// .on("mouseover", zoom)
+					// .on("mouseout", zoomout)
 					.exit()
 			}
 		}

@@ -149,7 +149,12 @@ output-screen h1 {
 			<h2 class="variable-value"></h1>
 		</selected-variable>
 		<slider-holder>
-			<gradient-slider></gradient-slider>
+			<gradient-slider>
+				<mobile-instructions>
+					<instructions-section>
+					</instructions-section>
+				</mobile-instructions>
+			</gradient-slider>
 		</slider-holder>
 		<save-close>Save</save-close>
 	</slider-lightbox>
@@ -631,24 +636,72 @@ customElements.define('toggle-view', class extends HTMLElement {
 	}
 })
 
+customElements.define("mobile-instructions", class extends HTMLElement {
+	constructor(){
+		super();
+		this.attachShadow({mode:"open"}).innerHTML=`
+		<style>
+		:host {
+			display:inline-block;
+			width:100%;
+			height:100%;
+			color:#CCCCCC;
+			text-transform:uppercase;
+		}
+		::slotted( instructions-section ){
+			display:block;
+		}
+		</style>
+		<slot></slot>
+		`;
+	}
+})
+
+//Change arrow direction for mobile instructions
+function getSliderInstructions(){
+	var target = document.querySelector('instructions-section');
+	if( window.innerWidth <= 900) {
+		target.innerHTML="&larr; Swipe to set value &rarr;";
+		target.addEventListener('touchstart',function() {
+			target.style.display="none";
+		})
+	} else {
+		target.innerHTML="&uarr; Swipe to set value &darr;";
+		target.addEventListener("click", function() {
+			target.style.display="none";
+		})
+	};
+}
+
+getSliderInstructions();
+
+function positionInstructions() {
+	var target = document.querySelector('instructions-section');
+	targetHeight = parseFloat(window.getComputedStyle(target).height/2);
+	console.log(targetHeight);
+	target.style.marginTop = targetHeight;
+}
+
 // Create buttons for visual variables
 data = [
-	{"id": "pl"},
-	 {"id": "sh"},
-	 {"id": "or"},
-	 {"id": "co"},
-	 {"id": "te"},
-	 {"id": "va"},
-	 {"id": "si"},
-	 {"id": "po"},
-	 {"id": "li"},
-	 {"id": "ar"},
-	 {"id": "rp"},
-	 {"id": "sp"},
-	 {"id": "kn"},
-	 {"id": "rf"},
-	 {"id": "mp"},
-	 {"id": "ht"},
+	{"id": "pl", "type": "slider"},
+	 {"id": "sh", "type": "slider"},
+	 {"id": "or", "type": "slider"},
+	 {"id": "co", "type": "slider"},
+	 {"id": "te", "type": "slider"},
+	 {"id": "va", "type": "slider"},
+	 {"id": "si", "type": "slider"},
+	 {"id": "po", "type": "three-states"},
+	 {"id": "li", "type": "three-states"},
+	 {"id": "ar", "type": "three-states"},
+	 {"id": "rp", "type": "three-states"},
+	 {"id": "sp", "type": "three-states"},
+	 {"id": "kn", "type": "boolean"},
+	 {"id": "rf", "type": "boolean"},
+	 {"id": "mp", "type": "boolean"},
+	 {"id": "ht", "type": "boolean"},
+	 //three states: 5- ext. strong, 3 - somewhat strong, 0-absence
+	 // boolean: 0, not present; 1: present
 	 // {"id": "submit"}
 ]
 
@@ -733,6 +786,7 @@ for(i=0;i<buttons.length;i++) {
 			document.querySelector('.variable-name').textContent = 'Has Text';
 		}
 	}
+	positionInstructions();
 }
 
 // When click on close-cancel, don't save any output

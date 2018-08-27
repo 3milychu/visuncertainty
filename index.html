@@ -45,7 +45,7 @@ nav {
 	margin-top:-1%;
 }
 
-selected-variable h1 {
+selected-variable h1, boolean-lightbox h1 {
 	font-size:1em;
 	text-transform:uppercase;
 	letter-spacing:0.05em;
@@ -104,6 +104,69 @@ output-screen h1 {
 	font-size:1.5em;
 }
 
+boolean-lightbox .variable-value {
+	display:none;
+}
+
+/* The switch - the box around the slider */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+}
+
+/* Hide default HTML checkbox */
+.switch input {display:none;}
+
+/* The slider */
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: #2196F3;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+
 @media screen and (max-width:900px) {
 	header {
 		padding: 12.5% 5%;
@@ -158,6 +221,72 @@ output-screen h1 {
 		</slider-holder>
 		<save-close>Save</save-close>
 	</slider-lightbox>
+
+	<checkbox-lightbox>
+		<close-cancel>X</close-cancel>
+		<selected-variable>
+			<h1 class="variable-name"></h1>
+			<h2 class="variable-value"></h1>
+		</selected-variable>
+		<checkbox-holder>
+			  <input type="radio" name="ordinal" value="Extremely Strong"> Extremely Strong<br>
+			  <input type="radio" name="ordinal" value="Somewhat Strong"> Somewhat Strong<br>
+			  <input type="radio" name="ordinal" value="None"> None
+		</checkbox-holder>
+		<save-close>Save</save-close>
+	</checkbox-lightbox>
+
+	<boolean-lightbox>
+		<close-cancel>X</close-cancel>
+		<div id="rp">
+			<h1 class="variable-name"></h1>
+			<h2 class="variable-value"></h1>
+			  <input type="radio" name="rp" value="Extremely Strong"> Extremely Strong<br>
+			  <input type="radio" name="rp" value="Somewhat Strong"> Somewhat Strong<br>
+			  <input type="radio" name="rp" value="None"> None
+		</div>
+		<div id="sp">
+			<h1 class="variable-name"></h1>
+			<h2 class="variable-value"></h1>
+			  <input type="radio" name="sp" value="Extremely Strong"> Extremely Strong<br>
+			  <input type="radio" name="sp" value="Somewhat Strong"> Somewhat Strong<br>
+			  <input type="radio" name="sp" value="None"> None
+		</div>
+		<div id="kn">
+			<h1 class="variable-name"></h1>
+			<h2 class="variable-value"></h1>
+			<label class="switch">
+			  <input type="checkbox">
+			  <span class="slider round"></span>
+			</label>
+		</div>
+		<div id="rf">
+			<h1 class="variable-name"></h1>
+			<h2 class="variable-value"></h1>
+			<label class="switch">
+			  <input type="checkbox">
+			  <span class="slider round"></span>
+			</label>
+		</div>
+		<div id="mp">
+			<h1 class="variable-name"></h1>
+			<h2 class="variable-value"></h1>
+			<label class="switch">
+			  <input type="checkbox">
+			  <span class="slider round"></span>
+			</label>
+		</div>
+		<div id="ht">
+			<h1 class="variable-name"></h1>
+			<h2 class="variable-value"></h1>
+			<label class="switch">
+			  <input type="checkbox">
+			  <span class="slider round"></span>
+			</label>
+		</div>
+
+		<save-close>Save</save-close>
+	</boolean-lightbox>
 
 	<custom-calculator id="calculator">
 		<toggle-view>
@@ -345,6 +474,66 @@ customElements.define('slider-lightbox', class extends HTMLElement {
 			height:50vh;
 			background-color:black;
 			overflow:hidden;
+		}
+		@media screen and (max-width:900px){
+			:host {
+				margin-top:0%;
+				height:70vh;
+			}
+		}
+		</style>
+		<slot></slot>
+		`;
+	}
+})
+
+customElements.define('checkbox-lightbox', class extends HTMLElement {
+	constructor() {
+		super();
+		this.attachShadow({mode:"open"}).innerHTML = `
+		<style>
+		:host {
+			display:none;
+			position:fixed;
+			z-index:2;
+			width:80%;
+			margin: 5% 3% 5% 8%;
+			height:50vh;
+			background-color:black;
+			overflow:hidden;
+			color:white;
+		}
+		@media screen and (max-width:900px){
+			:host {
+				margin-top:0%;
+				height:70vh;
+			}
+		}
+		</style>
+		<slot></slot>
+		`;
+	}
+})
+
+customElements.define('boolean-lightbox', class extends HTMLElement {
+	constructor() {
+		super();
+		this.attachShadow({mode:"open"}).innerHTML = `
+		<style>
+		:host {
+			display:none;
+			position:fixed;
+			z-index:2;
+			width:80%;
+			margin: 5% 3% 5% 8%;
+			height:50vh;
+			background-color:black;
+			overflow:scroll;
+			color:white;
+		}
+		::slotted( div ){
+			display:inline-block;
+			margin:5%;
 		}
 		@media screen and (max-width:900px){
 			:host {
@@ -547,6 +736,31 @@ customElements.define('lightbox-slider', class extends HTMLElement {
 	}
 })
 
+customElements.define('checkbox-holder', class extends HTMLElement {
+	constructor() {
+		super();
+		this.attachShadow({mode:"open"}).innerHTML = `
+		<style>
+		:host {
+			display:inline-block;
+			width:30%;
+			height:100%;
+			padding-left:5%;
+			padding-top:12.5%;
+		}
+		@media screen and (max-width:900px) {
+			:host {
+				width:100%;
+				height:30%;
+				padding-top:30%;
+			}
+		}
+		</style>
+		<slot></slot>
+		`;
+	}
+})
+
 customElements.define('photo-collage', class extends HTMLElement {
 	constructor() {
 		super();
@@ -684,24 +898,25 @@ function positionInstructions() {
 
 // Create buttons for visual variables
 data = [
-	{"id": "pl", "type": "slider"},
-	 {"id": "sh", "type": "slider"},
-	 {"id": "or", "type": "slider"},
-	 {"id": "co", "type": "slider"},
-	 {"id": "te", "type": "slider"},
-	 {"id": "va", "type": "slider"},
-	 {"id": "si", "type": "slider"},
-	 {"id": "po", "type": "three-states"},
-	 {"id": "li", "type": "three-states"},
-	 {"id": "ar", "type": "three-states"},
-	 {"id": "rp", "type": "three-states"},
-	 {"id": "sp", "type": "three-states"},
-	 {"id": "kn", "type": "boolean"},
-	 {"id": "rf", "type": "boolean"},
-	 {"id": "mp", "type": "boolean"},
-	 {"id": "ht", "type": "boolean"},
-	 //three states: 5- ext. strong, 3 - somewhat strong, 0-absence
-	 // boolean: 0, not present; 1: present
+	{"id": "pl", "type": "int", "hierarchy": 1},
+	 {"id": "sh", "type": "int", "hierarchy": 1},
+	 {"id": "or", "type": "int", "hierarchy": 1},
+	 {"id": "co", "type": "int", "hierarchy": 1},
+	 {"id": "te", "type": "int", "hierarchy": 1},
+	 {"id": "va", "type": "int", "hierarchy": 1},
+	 {"id": "si", "type": "int", "hierarchy": 1},
+	 {"id": "po", "type": "ord", "hierarchy": 2},
+	 {"id": "li", "type": "ord", "hierarchy": 2},
+	 {"id": "ar", "type": "ord", "hierarchy": 2},
+	 {"id": "rp", "type": "ord", "hierarchy": 3},
+	 {"id": "sp", "type": "ord", "hierarchy": 3},
+	 {"id": "kn", "type": "bool", "hierarchy": 3},
+	 {"id": "rf", "type": "bool", "hierarchy": 3},
+	 {"id": "mp", "type": "bool", "hierarchy": 3},
+	 {"id": "ht", "type": "bool", "hierarchy": 3},
+	 //ord: 5- ext. strong, 3 - somewhat strong, 0-absence
+	 // bool: 0, not present; 1: present
+	 // int: 0,1,2,3,4,5
 	 // {"id": "submit"}
 ]
 
@@ -725,25 +940,67 @@ for(i=0;i<data.length;i++) {
 }
 
 // Calc-buttons behavior
-d3.select('buttons-module').selectAll("buttons-module")
-	.data(data)
-	.enter()
-	.append('calc-buttons')
-	.attr("id", function(d) {return d.id})
-	.style("cursor", "pointer")
-	.text(function(d) {return d.id})
-	.style("text-align", "center")
-	.style("padding-top", "3%")
-	.style("padding-bottom", "3%")
-	.on("click", lightboxOn)
-	.exit()
+for(i=0;i<data.length;i++){
+	hierarchy = data[i]["hierarchy"];
+	id = data[i]["id"];
+	if(hierarchy == 1){
+		d3.select('buttons-module').selectAll("buttons-module")
+			.data(data.filter(function (d) { return d.id === id;}))
+			.enter()
+			.append('calc-buttons')
+			.attr("id", function(d) {return d.id})
+			.style("cursor", "pointer")
+			.text(function(d) {return d.id})
+			.style("text-align", "center")
+			.style("padding-top", "3%")
+			.style("padding-bottom", "3%")
+			.on("click", sliderOn)
+			.exit()
+	} else if (hierarchy == 2) {
+		d3.select('buttons-module').selectAll("buttons-module")
+			.data(data.filter(function (d) { return d.id === id;}))
+			.enter()
+			.append('calc-buttons')
+			.attr("id", function(d) {return d.id})
+			.style("cursor", "pointer")
+			.style("background-color", "white")
+			.text(function(d) {return d.id})
+			.style("text-align", "center")
+			.style("padding-top", "3%")
+			.style("padding-bottom", "3%")
+			.on("click", checkboxOn)
+			.exit()
+	}
+}
 
+var other = document.createElement('calc-buttons');
+other.innerHTML = "More Filters";
+other.style.width = "45%";
+other.style.fontSize = "1.3em";
+other.style.paddingTop = "7%"
+other.style.paddingBottom = "4%"
+other.style.textAlign = "center";
+other.id = "other-filters";
 
-function lightboxOn() {
+document.querySelector('buttons-module').appendChild(other);
+other.addEventListener("click", function() {
+	booleanOn();
+})
+
+function sliderOn() {
 	document.querySelector('slider-lightbox').style.display="inline-block";
 	document.querySelector('bg-overlay').style.display="block";
 }
 
+function checkboxOn() {
+	document.querySelector('checkbox-lightbox').style.display="inline-block";
+	document.querySelector('bg-overlay').style.display="block";
+}
+
+function booleanOn() {
+	document.querySelector('boolean-lightbox').style.display="inline-block";
+	document.querySelector('bg-overlay').style.display="block";
+}
 // When click on buttons, ID stores as value
 var buttons = document.getElementsByTagName('calc-buttons');
 for(i=0;i<buttons.length;i++) {
@@ -767,59 +1024,67 @@ for(i=0;i<buttons.length;i++) {
 		} else if (tracking === "si") {
 			document.querySelector('.variable-name').textContent = 'Size';
 		} else if (tracking === "po") {
-			document.querySelector('.variable-name').textContent = 'Point';
+			document.getElementsByClassName('variable-name')[1].textContent = 'Point';
 		} else if (tracking === "li") {
-			document.querySelector('.variable-name').textContent = 'Line';
+			document.getElementsByClassName('variable-name')[1].textContent = 'Line';
 		} else if (tracking === "ar") {
-			document.querySelector('.variable-name').textContent = 'Area';
-		} else if (tracking === "rp") {
-			document.querySelector('.variable-name').textContent = 'Representational';
-		} else if (tracking === "sp") {
-			document.querySelector('.variable-name').textContent = 'Spatial';
-		} else if (tracking === "kn") {
-			document.querySelector('.variable-name').textContent = 'Kinetic';
-		} else if (tracking === "rf") {
-			document.querySelector('.variable-name').textContent = 'Reflection';
-		} else if (tracking === "mp") {
-			document.querySelector('.variable-name').textContent = 'Map';
-		} else if (tracking === "ht") {
-			document.querySelector('.variable-name').textContent = 'Has Text';
+			document.getElementsByClassName('variable-name')[1].textContent = 'Area';
+		} else if (tracking === "other-filters") {
+			console.log("you clicked other filters!");
+			document.getElementsByClassName('variable-name')[2].textContent = 'Representational';
+			document.getElementsByClassName('variable-name')[3].textContent = 'Spatial';
+			document.getElementsByClassName('variable-name')[4].textContent = 'Kinetic';
+			document.getElementsByClassName('variable-name')[5].textContent = 'Reflection';
+			document.getElementsByClassName('variable-name')[6].textContent = 'Map';
+			document.getElementsByClassName('variable-name')[7].textContent = 'Has Text';
 		}
 	}
 	positionInstructions();
 }
 
 // When click on close-cancel, don't save any output
-var cancel = document.querySelector('close-cancel');
-cancel.addEventListener("click", function () {
+var cancel = document.getElementsByTagName('close-cancel');
+for (i=0;i<cancel.length;i++){
+	cancel[i].onclick = function() {
+		document.querySelector('html').style.position="relative";
+		document.querySelector('slider-lightbox').style.display="none";
+		document.querySelector('checkbox-lightbox').style.display="none";
+		document.querySelector('boolean-lightbox').style.display="none";
+		document.querySelector('bg-overlay').style.display="none";
+	}
+}
 
-	document.querySelector('html').style.position="relative";
-
-	document.querySelector('slider-lightbox').style.display="none";
-	document.querySelector('bg-overlay').style.display="none";
-})
+	
 
 // When click on save and close, send values to output screen
-var close = document.querySelector('save-close');
-close.addEventListener("click", function () {
 
-	document.querySelector('html').style.position="relative";
+var close = document.getElementsByTagName('save-close');
+for (i=0;i<close.length;i++){
+	
+	
+	close[i].onclick= function() {
+		parentID = this.parentElement.nodeName;
+		var parentID = document.querySelector(parentID);
+		document.querySelector('html').style.position="relative";
 
-	document.querySelector('slider-lightbox').style.display="none";
-	document.querySelector('bg-overlay').style.display="none";
+		document.querySelector('slider-lightbox').style.display="none";
+		document.querySelector('checkbox-lightbox').style.display="none";
+		document.querySelector('boolean-lightbox').style.display="none";
+		document.querySelector('bg-overlay').style.display="none";
 
-	function fillOutput() {
-		document.querySelector("#default-message").textContent = "";
-		var name = document.querySelector('.variable-name').innerHTML;
-		document.querySelector(tracking+'-value').innerHTML =  "<h5>" + 
-			document.querySelector('.variable-value').innerHTML + 
-			"</h5> " + name + "<clear-button>x</clear-button>";
+		function fillOutput() {
+			document.querySelector("#default-message").textContent = "";
+			var name = parentID.querySelector('.variable-name').innerHTML;
+			document.querySelector(tracking+'-value').innerHTML =  "<h5>" + 
+				parentID.querySelector('.variable-value').innerHTML + 
+				"</h5> " + name + "<clear-button>x</clear-button>";
+		};
 
-	};
+		fillOutput();
+		updateData();
+	}
+}
 
-	fillOutput();
-	updateData();
-})
 
 function updateData () {
 	// Store saved values and return images
@@ -828,22 +1093,39 @@ function updateData () {
 
 	for(i=0;i<data.length;i++) {
 		storedVarName = data[i]['id'];
+		storedVarType = data[i]['type']
 		ref = document.querySelector(storedVarName+'-value');
 
 		if(ref.innerHTML!= "") {
 			storedVarVal = ref.querySelector('h5').innerHTML;
-
-			if (storedVarVal === "Extremely Strong") {
+			if (storedVarType == "int") {
+				if (storedVarVal === "Extremely Strong") {
 				storedVarVal = 5;
-			} else if(storedVarVal === "Very Strong") {
-				storedVarVal = 4;
-			} else if (storedVarVal === "Somewhat Strong") {
-				storedVarVal = 3;
-			} else if (storedVarVal === "Slightly Weak") {
-				storedVarVal = 2;
-			} else if (storedVarVal === "Somewhat Weak") {
+				} else if(storedVarVal === "Very Strong") {
+					storedVarVal = 4;
+				} else if (storedVarVal === "Somewhat Strong") {
+					storedVarVal = 3;
+				} else if (storedVarVal === "Slightly Weak") {
+					storedVarVal = 2;
+				} else if (storedVarVal === "Somewhat Weak") {
+					storedVarVal = 1;
+				}
+			} else if (storedVarType == "ord") {
+				if (storedVarVal === "Extremely Strong") {
+				storedVarVal = 5;
+				} else if (storedVarVal === "Somewhat Strong") {
+					storedVarVal = 3;
+				} else if (storedVarVal === "None") {
+					storedVarVal = 0;
+				}
+			} else if (storedVarType == "bool") {
+				if (storedVarVal === "Present") {
 				storedVarVal = 1;
+				} else if (storedVarVal === "Absent") {
+					storedVarVal = 0;
+				} 
 			}
+			
 			// console.log(storedVarName+": "+storedVarVal);
 			directory.push({
 				key: storedVarName,
@@ -856,7 +1138,7 @@ function updateData () {
 	console.log(directory);
 
 	// Get the data
-	json_path = 'https://raw.githubusercontent.com/3milychu/visuncertainty/master/data/data.csv'
+	json_path = 'https://raw.githubusercontent.com/3milychu/visuncertainty/master/data/data.json'
 	var xttp = new XMLHttpRequest();
 	xttp.open("GET", json_path, true);
 	xttp.send();
@@ -944,6 +1226,31 @@ slider.onscroll = function () {
 		} else if (value > binSize*4 & value < binSize*5){
 			document.querySelector('.variable-value').textContent = 'Somewhat Weak';
 		};
+	}
+}
+
+// Checkbox-lightbox filters
+var checkbox_lightbox = document.querySelector('checkbox-lightbox');
+var radios = checkbox_lightbox.getElementsByTagName('input');
+for (i=0;i<radios.length;i++){
+	radios[i].onclick = function() {
+		var checkedValue = document.querySelector('input[name="ordinal"]:checked').value;
+		console.log(checkedValue);
+		// parentID = this.parentElement.nodeName;
+		// console.log(parentID);
+		document.getElementsByClassName('variable-value')[1].textContent = checkedValue;
+	}
+}
+
+// Boolean0lightbox filters
+var boolean_lightbox = document.querySelector('boolean-lightbox');
+var filters = boolean_lightbox.getElementsByTagName('input');
+for (i=0;i<filters.length;i++){
+	filters[i].onclick=function() {
+		var selectionValue = document.querySelector('input:checked').value;
+		parentID = this.parentElement.id;
+		var target = document.getElementById(parentID);
+		target.querySelector('.variable-value').innerHTML = selectionValue;
 	}
 }
 

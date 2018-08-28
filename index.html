@@ -256,7 +256,7 @@ input:checked + .slider:before {
 			<h1 class="variable-name"></h1>
 			<h2 class="variable-value"></h1>
 			<label class="switch">
-			  <input type="checkbox">
+			  <input type="checkbox" name="kn" value="Present">
 			  <span class="slider round"></span>
 			</label>
 		</div>
@@ -264,7 +264,7 @@ input:checked + .slider:before {
 			<h1 class="variable-name"></h1>
 			<h2 class="variable-value"></h1>
 			<label class="switch">
-			  <input type="checkbox">
+			  <input type="checkbox" name="rf" value="Present">
 			  <span class="slider round"></span>
 			</label>
 		</div>
@@ -272,7 +272,7 @@ input:checked + .slider:before {
 			<h1 class="variable-name"></h1>
 			<h2 class="variable-value"></h1>
 			<label class="switch">
-			  <input type="checkbox">
+			  <input type="checkbox" name="mp" value="Present">
 			  <span class="slider round"></span>
 			</label>
 		</div>
@@ -280,7 +280,7 @@ input:checked + .slider:before {
 			<h1 class="variable-name"></h1>
 			<h2 class="variable-value"></h1>
 			<label class="switch">
-			  <input type="checkbox">
+			  <input type="checkbox" name="ht" value="Present">
 			  <span class="slider round"></span>
 			</label>
 		</div>
@@ -1063,8 +1063,9 @@ for (i=0;i<close.length;i++){
 	
 	
 	close[i].onclick= function() {
-		parentID = this.parentElement.nodeName;
-		var parentID = document.querySelector(parentID);
+		parentName = this.parentElement.nodeName;
+		console.log(parentName);
+		var parentID = document.querySelector(parentName);
 		document.querySelector('html').style.position="relative";
 
 		document.querySelector('slider-lightbox').style.display="none";
@@ -1073,11 +1074,29 @@ for (i=0;i<close.length;i++){
 		document.querySelector('bg-overlay').style.display="none";
 
 		function fillOutput() {
-			document.querySelector("#default-message").textContent = "";
-			var name = parentID.querySelector('.variable-name').innerHTML;
-			document.querySelector(tracking+'-value').innerHTML =  "<h5>" + 
-				parentID.querySelector('.variable-value').innerHTML + 
-				"</h5> " + name + "<clear-button>x</clear-button>";
+			if(parentName != "BOOLEAN-LIGHTBOX") {
+				var parentID = document.querySelector(parentName);
+				document.querySelector("#default-message").textContent = "";
+				var name = parentID.querySelector('.variable-name').innerHTML;
+				document.querySelector(tracking+'-value').innerHTML =  "<h5>" + 
+					parentID.querySelector('.variable-value').innerHTML + 
+					"</h5> " + name + "<clear-button>x</clear-button>";
+			} else if (parentName == "BOOLEAN-LIGHTBOX"){
+				document.querySelector("#default-message").textContent = "";
+				var boolean_lightbox = document.querySelector('boolean-lightbox');
+				var names = boolean_lightbox.querySelectorAll('.variable-name');
+				console.log(names.length);
+				for(i=0;i<names.length;i++){
+					parentName = names[i].parentElement.id;
+					var parentID = document.getElementById(parentName);
+					if( parentID.querySelector('.variable-value').innerHTML!= ""){
+						name = names[i].innerHTML;
+						document.querySelector(parentName+'-value').innerHTML =  "<h5>" + parentID.querySelector('.variable-value').innerHTML + "</h5> " + name + "<clear-button>x</clear-button>";
+					} else {
+						// do nothing
+					};
+				}
+			}
 		};
 
 		fillOutput();
@@ -1121,7 +1140,7 @@ function updateData () {
 			} else if (storedVarType == "bool") {
 				if (storedVarVal === "Present") {
 				storedVarVal = 1;
-				} else if (storedVarVal === "Absent") {
+				} else if (storedVarVal != "Present") {
 					storedVarVal = 0;
 				} 
 			}
@@ -1247,10 +1266,21 @@ var boolean_lightbox = document.querySelector('boolean-lightbox');
 var filters = boolean_lightbox.getElementsByTagName('input');
 for (i=0;i<filters.length;i++){
 	filters[i].onclick=function() {
-		var selectionValue = document.querySelector('input:checked').value;
 		parentID = this.parentElement.id;
 		var target = document.getElementById(parentID);
-		target.querySelector('.variable-value').innerHTML = selectionValue;
+		type = this.type;
+		console.log(type);
+		if (type == "radio") {
+			var selectionValue = target.querySelector('input:checked').value;
+			target.querySelector('.variable-value').innerHTML = selectionValue;
+		} else if (type =="checkbox") {
+			console.log(parentID);
+			console.log(target);
+			var selectionValue = target.querySelector('input').checked;
+			console.log(selectionValue);
+			// if(selectionValue==true)
+			// target.querySelector('.variable-value').innerHTML = selectionValue;
+		}
 	}
 }
 

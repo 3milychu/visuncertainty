@@ -238,12 +238,12 @@ input:checked + .slider:before {
 
 	<boolean-lightbox>
 		<close-cancel>X</close-cancel>
-		<div id="rp">
+		<div id="re">
 			<h1 class="variable-name"></h1>
 			<h2 class="variable-value"></h1>
-			  <input type="radio" name="rp" value="Extremely Strong"> Extremely Strong<br>
-			  <input type="radio" name="rp" value="Somewhat Strong"> Somewhat Strong<br>
-			  <input type="radio" name="rp" value="None"> None
+			  <input type="radio" name="re" value="Extremely Strong"> Extremely Strong<br>
+			  <input type="radio" name="re" value="Somewhat Strong"> Somewhat Strong<br>
+			  <input type="radio" name="re" value="None"> None
 		</div>
 		<div id="sp">
 			<h1 class="variable-name"></h1>
@@ -252,11 +252,11 @@ input:checked + .slider:before {
 			  <input type="radio" name="sp" value="Somewhat Strong"> Somewhat Strong<br>
 			  <input type="radio" name="sp" value="None"> None
 		</div>
-		<div id="kn">
+		<div id="ki">
 			<h1 class="variable-name"></h1>
 			<h2 class="variable-value"></h1>
 			<label class="switch">
-			  <input type="checkbox" name="kn" value="Present">
+			  <input type="checkbox" name="ki" value="Present">
 			  <span class="slider round"></span>
 			</label>
 		</div>
@@ -268,11 +268,11 @@ input:checked + .slider:before {
 			  <span class="slider round"></span>
 			</label>
 		</div>
-		<div id="mp">
+		<div id="ma">
 			<h1 class="variable-name"></h1>
 			<h2 class="variable-value"></h1>
 			<label class="switch">
-			  <input type="checkbox" name="mp" value="Present">
+			  <input type="checkbox" name="ma" value="Present">
 			  <span class="slider round"></span>
 			</label>
 		</div>
@@ -306,11 +306,11 @@ input:checked + .slider:before {
 				<po-value></po-value>
 				<li-value></li-value>
 				<ar-value></ar-value>
-				<rp-value></rp-value>
+				<re-value></re-value>
 				<sp-value></sp-value>
-				<kn-value></kn-value>
+				<ki-value></ki-value>
 				<rf-value></rf-value>
-				<mp-value></mp-value>
+				<ma-value></ma-value>
 				<ht-value></ht-value></p>
 				<h1 id="output-count"></h1>
 		</output-screen>
@@ -908,11 +908,11 @@ data = [
 	 {"id": "po", "type": "ord", "hierarchy": 2},
 	 {"id": "li", "type": "ord", "hierarchy": 2},
 	 {"id": "ar", "type": "ord", "hierarchy": 2},
-	 {"id": "rp", "type": "ord", "hierarchy": 3},
+	 {"id": "re", "type": "ord", "hierarchy": 3},
 	 {"id": "sp", "type": "ord", "hierarchy": 3},
-	 {"id": "kn", "type": "bool", "hierarchy": 3},
+	 {"id": "ki", "type": "bool", "hierarchy": 3},
 	 {"id": "rf", "type": "bool", "hierarchy": 3},
-	 {"id": "mp", "type": "bool", "hierarchy": 3},
+	 {"id": "ma", "type": "bool", "hierarchy": 3},
 	 {"id": "ht", "type": "bool", "hierarchy": 3},
 	 //ord: 5- ext. strong, 3 - somewhat strong, 0-absence
 	 // bool: 0, not present; 1: present
@@ -1139,9 +1139,9 @@ function updateData () {
 				}
 			} else if (storedVarType == "bool") {
 				if (storedVarVal === "Present") {
-				storedVarVal = 1;
+				storedVarVal = true;
 				} else if (storedVarVal != "Present") {
-					storedVarVal = 0;
+					storedVarVal = false;
 				} 
 			}
 			
@@ -1267,19 +1267,48 @@ var filters = boolean_lightbox.getElementsByTagName('input');
 for (i=0;i<filters.length;i++){
 	filters[i].onclick=function() {
 		parentID = this.parentElement.id;
+		console.log(parentID);
 		var target = document.getElementById(parentID);
 		type = this.type;
+		checked = this.checked;
+		value = this.value;
+		name = this.name;
 		console.log(type);
 		if (type == "radio") {
 			var selectionValue = target.querySelector('input:checked').value;
 			target.querySelector('.variable-value').innerHTML = selectionValue;
-		} else if (type =="checkbox") {
-			console.log(parentID);
-			console.log(target);
-			var selectionValue = target.querySelector('input').checked;
-			console.log(selectionValue);
-			// if(selectionValue==true)
-			// target.querySelector('.variable-value').innerHTML = selectionValue;
+		} else if (type =="checkbox" && checked == true && name == "ki") {
+			parentID = "ki";
+			var target = document.getElementById(parentID);
+			target.querySelector('.variable-value').innerHTML = value;
+		} else if (type =="checkbox" && checked == true && name == "rf") {
+			parentID = "rf";
+			var target = document.getElementById(parentID);
+			target.querySelector('.variable-value').innerHTML = value;
+		} else if (type =="checkbox" && checked == true && name == "ma"){
+			parentID = "ma";
+			var target = document.getElementById(parentID);
+			target.querySelector('.variable-value').innerHTML = value;
+		} else if (type =="checkbox" && checked == true && name == "ht") {
+			parentID = "ht";
+			var target = document.getElementById(parentID);
+			target.querySelector('.variable-value').innerHTML = value;
+		} else if (type =="checkbox" && checked == false && name == "ki"){
+			parentID = "ki";
+			var target = document.getElementById(parentID);
+			target.querySelector('.variable-value').innerHTML = "Absent";
+		} else if (type =="checkbox" && checked == false && name == "rf") {
+			parentID = "rf";
+			var target = document.getElementById(parentID);
+			target.querySelector('.variable-value').innerHTML = "Absent";
+		} else if (type =="checkbox" && checked == false && name == "ma") {
+			parentID = "ma";
+			var target = document.getElementById(parentID);
+			target.querySelector('.variable-value').innerHTML = "Absent";
+		} else if (type =="checkbox" && checked == false && name == "ht") {
+			parentID = "ht";
+			var target = document.getElementById(parentID);
+			target.querySelector('.variable-value').innerHTML = "Absent";
 		}
 	}
 }

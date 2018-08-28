@@ -389,7 +389,8 @@ customElements.define('custom-calculator', class extends HTMLElement {
 
     ::slotted( buttons-module ){
     	width:100%;
-    	height:100%;
+    	height:50vh;
+    	padding-top:10%;
     }
     }
 
@@ -963,7 +964,7 @@ for(i=0;i<data.length;i++){
 			.append('calc-buttons')
 			.attr("id", function(d) {return d.id})
 			.style("cursor", "pointer")
-			.style("background-color", "white")
+			.style("background-color", "#F19368")
 			.text(function(d) {return d.id})
 			.style("text-align", "center")
 			.style("padding-top", "3%")
@@ -980,6 +981,7 @@ other.style.fontSize = "1.3em";
 other.style.paddingTop = "7%"
 other.style.paddingBottom = "4%"
 other.style.textAlign = "center";
+other.style.backgroundColor = "#F1B59A";
 other.id = "other-filters";
 
 document.querySelector('buttons-module').appendChild(other);

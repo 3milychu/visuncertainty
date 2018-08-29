@@ -97,6 +97,7 @@ boolean-lightbox .variable-value {
 }
 /*image captions*/
 .overlay p {
+	margin-top:50%;
 	text-align:center;
 	color:white;
 	font-size:0.8em;
@@ -208,6 +209,9 @@ instructions-section img {
 		margin-left:15%;
 		margin-top:-30%;
 		animation: swipehor 3s infinite ease-in-out;
+	}
+	.overlay p{
+		margin-top:20%;
 	}
 }
 </style>
@@ -1182,7 +1186,7 @@ function updateData () {
 						{return "http://visualizeuncertainty.io/img_cropped/" + d.s_no + ".jpg";})
 					.exit()
 				var min=d3.min(df, function(d) {return d.s_no;});
-				var max=d3.max(df, function(d) {return d.s_no;});
+				var max=d3.max(df, function(d) {return d.s_no;})+1;
 				console.log(min,max);
 				for(i=min;i<max;i++){
 					tracker = i;

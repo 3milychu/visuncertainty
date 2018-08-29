@@ -108,7 +108,30 @@ boolean-lightbox .variable-value {
 	display:none;
 }
 
-/* The switch - the box around the slider */
+/*image captions*/
+.overlay {
+	position:absolute;
+	top: 0;
+  	bottom: 0;
+  	left: 0;
+  	right: 0;
+	width:100%;
+	height:100%;
+	opacity:0;
+	background-color:black;
+	transition:0.25s ease-in-out;
+}
+.overlay text {
+	text-align:center;
+	color:white;
+}
+img-holder:hover .overlay {
+	opacity:1;
+	display:inline-block;
+}
+
+
+/* The switch - the box around the slider 
 .switch {
   position: relative;
   display: inline-block;
@@ -276,11 +299,11 @@ input:checked + .slider:before {
 			  <span class="slider round"></span>
 			</label>
 		</div>
-		<div id="ht">
+		<div id="tx">
 			<h1 class="variable-name"></h1>
 			<h2 class="variable-value"></h1>
 			<label class="switch">
-			  <input type="checkbox" name="ht" value="Present">
+			  <input type="checkbox" name="tx" value="Present">
 			  <span class="slider round"></span>
 			</label>
 		</div>
@@ -311,7 +334,7 @@ input:checked + .slider:before {
 				<ki-value></ki-value>
 				<rf-value></rf-value>
 				<ma-value></ma-value>
-				<ht-value></ht-value></p>
+				<tx-value></tx-value></p>
 				<h1 id="output-count"></h1>
 		</output-screen>
 		<photo-collage></photo-collage>
@@ -788,16 +811,39 @@ customElements.define('img-holder', class extends HTMLElement {
 		this.attachShadow({mode:"open"}).innerHTML = `
 		<style>
 		:host {
+			position:relative;
 			display:inline-block;
 			overflow:hidden;
 			width:12.5%;
 			height:auto;
+			opacity:1;
+		}
+		:host(:hover){
+			opacity:0.8;
 		}
 		::slotted( img ){
-			transition: 1s ease-in-out;
+			display:block;
 			z-index:0;
 			width:120%;
+			height:100%;
 			cursor:pointer;
+		}
+		::slotted( div ) {
+			display:block;
+			position:absolute;
+			top: 0;
+		  	bottom: 0;
+		  	left: 0;
+		  	right: 0;
+			width:100%;
+			height:100%;
+			background-color:black;
+			z-index:1;
+			transition:0.25s ease-in-out;
+		}
+		::slotted( p ) {
+			text-align:center;
+			color:white;
 		}
 		@media screen and (max-width:900px){
 			:host {
@@ -914,7 +960,7 @@ data = [
 	 {"id": "ki", "type": "bool", "hierarchy": 3},
 	 {"id": "rf", "type": "bool", "hierarchy": 3},
 	 {"id": "ma", "type": "bool", "hierarchy": 3},
-	 {"id": "ht", "type": "bool", "hierarchy": 3},
+	 {"id": "tx", "type": "bool", "hierarchy": 3},
 	 //ord: 5- ext. strong, 3 - somewhat strong, 0-absence
 	 // bool: 0, not present; 1: present
 	 // int: 0,1,2,3,4,5
@@ -1095,7 +1141,7 @@ for (i=0;i<close.length;i++){
 						name = names[i].innerHTML;
 						document.querySelector(parentName+'-value').innerHTML =  "<h5>" + parentID.querySelector('.variable-value').innerHTML + "</h5> " + name + "<clear-button>x</clear-button>";
 					} else {
-						// do nothing
+						document.querySelector(parentName+'-value').innerHTML =  "";
 					};
 				}
 			}
@@ -1180,18 +1226,20 @@ function updateData () {
 				document.querySelector('#output-count').innerHTML = df.length + " Images";
 
 				//Populate photo collage
-				d3.select('photo-collage').selectAll("img-holder").remove();
-				d3.select('photo-collage').selectAll('photo-collage')
+				d3.select("photo-collage").selectAll("img-holder").remove();
+				d3.select("photo-collage").selectAll('photo-collage')
 					.data(df)
 					.enter()
-					.append('img-holder')
-					.append('img')
+					.append("img-holder")
+					.append("img")
 					.attr("class", "image")
-					.attr("id", function(d) {return d.s_no})
+					.attr("id", function(d) {return d.s_no;})
 					.attr("src", function(d) 
-						{return "http://visualizeuncertainty.io/img_cropped/" + d.s_no + ".jpg"})
-					// .on("mouseover", zoom)
-					// .on("mouseout", zoomout)
+						{return "http://visualizeuncertainty.io/img_cropped/" + d.s_no + ".jpg";})
+					.append("div")
+					.attr("class", "overlay")
+					.append('p')
+					.text(function(d) {return d.title + "<br>" + d.artist;})
 					.exit()
 			}
 		}
@@ -1291,26 +1339,26 @@ for (i=0;i<filters.length;i++){
 			parentID = "ma";
 			var target = document.getElementById(parentID);
 			target.querySelector('.variable-value').innerHTML = value;
-		} else if (type =="checkbox" && checked == true && name == "ht") {
-			parentID = "ht";
+		} else if (type =="checkbox" && checked == true && name == "tx") {
+			parentID = "tx";
 			var target = document.getElementById(parentID);
 			target.querySelector('.variable-value').innerHTML = value;
 		} else if (type =="checkbox" && checked == false && name == "ki"){
 			parentID = "ki";
 			var target = document.getElementById(parentID);
-			target.querySelector('.variable-value').innerHTML = "Absent";
+			target.querySelector('.variable-value').innerHTML = "";
 		} else if (type =="checkbox" && checked == false && name == "rf") {
 			parentID = "rf";
 			var target = document.getElementById(parentID);
-			target.querySelector('.variable-value').innerHTML = "Absent";
+			target.querySelector('.variable-value').innerHTML = "";
 		} else if (type =="checkbox" && checked == false && name == "ma") {
 			parentID = "ma";
 			var target = document.getElementById(parentID);
-			target.querySelector('.variable-value').innerHTML = "Absent";
-		} else if (type =="checkbox" && checked == false && name == "ht") {
-			parentID = "ht";
+			target.querySelector('.variable-value').innerHTML = "";
+		} else if (type =="checkbox" && checked == false && name == "tx") {
+			parentID = "tx";
 			var target = document.getElementById(parentID);
-			target.querySelector('.variable-value').innerHTML = "Absent";
+			target.querySelector('.variable-value').innerHTML = "";
 		}
 	}
 }

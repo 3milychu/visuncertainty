@@ -3,11 +3,111 @@
 <head>
 	<title></title>
 </head>
+
+<style>
+.overlay {
+	position:absolute;
+	top: 0;
+  	bottom: 0;
+  	left: 0;
+  	right: 0;
+	width:100%;
+	height:100%;
+	opacity:0;
+	background-color:black;
+	transition:0.25s ease-in-out;
+}
+.overlay text {
+	text-align:center;
+	color:white;
+}
+img-holder:hover .overlay {
+	opacity:1;
+	display:inline-block;
+}
+
+img-holder {
+	position:relative;
+	display:inline-block;
+	overflow:hidden;
+	width:12.5%;
+	height:auto;
+}
+img{
+	display:block;
+	z-index:0;
+	width:120%;
+	height:100%;
+	cursor:pointer;
+}
+container {
+	position:relative;
+
+}
+
+</style>
+
 <body>
-<form action="">
-  <input type="radio" name="gender" value="male"> Male<br>
-  <input type="radio" name="gender" value="female"> Female<br>
-  <input type="radio" name="gender" value="other"> Other
-</form>
+
+<container>
+<img-holder>
+	<img class="image" src="http://visualizeuncertainty.io/img_cropped/10.jpg">
+		<div class="overlay">
+			<p>Title<br>Artist</p>
+		</div>
+	</img>
+</img-holder>
+</container>
+
 </body>
+<script>
+	customElements.define('img-holder', class extends HTMLElement {
+	constructor() {
+		super();
+		this.attachShadow({mode:"open"}).innerHTML = `
+		<style>
+		:host {
+			position:relative;
+			display:inline-block;
+			overflow:hidden;
+			width:12.5%;
+			height:auto;
+			opacity:1;
+		}
+		:host(:hover){
+			opacity:0.8;
+		}
+		::slotted( img ){
+			display:block;
+			z-index:0;
+			width:120%;
+			height:100%;
+			cursor:pointer;
+		}
+		::slotted( div ) {
+			position:absolute;
+			top: 0;
+		  	bottom: 0;
+		  	left: 0;
+		  	right: 0;
+			width:100%;
+			height:100%;
+			background-color:black;
+			transition:0.25s ease-in-out;
+		}
+		::slotted( p ) {
+			text-align:center;
+			color:white;
+		}
+		@media screen and (max-width:900px){
+			:host {
+				width:25%;
+			}
+		}
+		</style>
+		<slot></slot>
+		`;
+	}
+})
+</script>
 </html>

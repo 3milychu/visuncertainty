@@ -11,7 +11,6 @@
 
 <!-- Stylesheet -->
 <style>
-
 html, body {
 	top:0;
 	left:0;
@@ -26,7 +25,6 @@ header {
 	height:auto;
 	padding: 5%;
 }
-
 site-logo {
 	font-size:0.8em;
 	border:0.3em solid #EB2E2F;
@@ -37,14 +35,12 @@ site-logo {
 	font-weight:600;
 	vertical-align:bottom;
 }
-
 nav {
 	color: #1A1A1A;
 	float:right;
 	font-size:2em;
 	margin-top:-1%;
 }
-
 selected-variable h1, boolean-lightbox h1 {
 	font-size:1em;
 	text-transform:uppercase;
@@ -61,7 +57,6 @@ selected-variable h2{
 	line-height:1em;
 	transition: 0.5s ease;
 }
-
 h5 {
 	font-size:1em;
 	font-weight:100;
@@ -71,13 +66,11 @@ h5 {
 	border-bottom: 0.05em dotted white;
 	vertical-align:top;
 }
-
 #default-message {
 	color:white;
 	font-weight:100;
 	letter-spacing:0.02em;
 }
-
 #output-count {
 	position:absolute;
 	color:white;
@@ -88,26 +81,20 @@ h5 {
 	cursor:pointer;
 	transition:0.25s ease-in-out;
 }
-
 #output-count:hover {
 	text-decoration:underline;
-
 }
-
 output-screen h1, p {
 	padding-left:10%;
 	padding-right:10%;
 }
-
 output-screen h1 {
 	padding-top:10%;
 	font-size:1.5em;
 }
-
 boolean-lightbox .variable-value {
 	display:none;
 }
-
 /*img-holder*/
 img-holder {
 	position:relative;
@@ -142,7 +129,6 @@ img-holder p {
 	text-align:center;
 	color:white;
 }
-
 /*image captions*/
 .overlay {
 	position:absolute;
@@ -163,25 +149,20 @@ img-holder p {
 	font-size:0.8em;
 	font-weight:400;
 	letter-spacing:0.05em;
-
 }
 img-holder:hover .overlay {
 	opacity:1;
 	display:inline-block;
 }
 
-
-/* The switch - the box around the slider 
 .switch {
   position: relative;
   display: inline-block;
   width: 60px;
   height: 34px;
 }
-
 /* Hide default HTML checkbox */
 .switch input {display:none;}
-
 /* The slider */
 .slider {
   position: absolute;
@@ -194,7 +175,6 @@ img-holder:hover .overlay {
   -webkit-transition: .4s;
   transition: .4s;
 }
-
 .slider:before {
   position: absolute;
   content: "";
@@ -206,30 +186,24 @@ img-holder:hover .overlay {
   -webkit-transition: .4s;
   transition: .4s;
 }
-
 input:checked + .slider {
   background-color: #2196F3;
 }
-
 input:focus + .slider {
   box-shadow: 0 0 1px #2196F3;
 }
-
 input:checked + .slider:before {
   -webkit-transform: translateX(26px);
   -ms-transform: translateX(26px);
   transform: translateX(26px);
 }
-
 /* Rounded sliders */
 .slider.round {
   border-radius: 34px;
 }
-
 .slider.round:before {
   border-radius: 50%;
 }
-
 @media screen and (max-width:900px) {
 	header {
 		padding: 12.5% 5%;
@@ -257,7 +231,6 @@ input:checked + .slider:before {
 		width:;
 	}
 }
-
 </style>
 
 <!-- Body Markup -->
@@ -391,21 +364,16 @@ input:checked + .slider:before {
 
 <!-- Script -->
 <script>
-
 window.onresize = function() {
 	toggleView();
 }
-
 //Define global variables
-
 var tracking;
 var df;
 var directory;
-
 //Create custom HTML Elements
 customElements.define('site-logo', class extends HTMLElement {
 })
-
 customElements.define('custom-calculator', class extends HTMLElement {
 	constructor() { 
 		super();
@@ -417,7 +385,6 @@ customElements.define('custom-calculator', class extends HTMLElement {
     	width:100%;
     	height:auto;
     }
-
     ::slotted( output-screen ){
     	z-index:0;
     	position:relative;
@@ -432,43 +399,36 @@ customElements.define('custom-calculator', class extends HTMLElement {
     // 	overflow-y:scroll;
     // 	padding-top:10vh;
     // }
-
     ::slotted( buttons-module ){
     	display:inline-block;
     	width: 49%;
     	height:100%;
     	vertical-align:top;
     }
-
     @media screen and (max-width:900px){
     	::slotted( output-screen ){
     	width:100%;
     	min-height:35vh;
     	height:auto;
     }
-
     ::slotted( photo-collage ){
     	width:100%;
     	min-height:100vh;
     	height:auto;
     }
-
     ::slotted( buttons-module ){
     	width:100%;
     	height:50vh;
     	padding-top:10%;
     }
     }
-
   </style>
   <slot></slot>
   `;
 	};
 })
-
 customElements.define('output-screen', class extends HTMLElement {
 })
-
 customElements.define('buttons-module', class extends HTMLElement {
 	constructor () {
 		super();
@@ -497,17 +457,14 @@ customElements.define('buttons-module', class extends HTMLElement {
 		  	background-color:white;
 		  	color:#F16E31;
 		  }
-
 		 }
 		</style>
 		<slot></slot>
 		`;
 	}
 })
-
 customElements.define('calc-buttons', class extends HTMLElement {
 })
-
 customElements.define('bg-overlay', class extends HTMLElement {
 	constructor() {
 		super();
@@ -526,7 +483,6 @@ customElements.define('bg-overlay', class extends HTMLElement {
 		`;
 	}
 })
-
 customElements.define('slider-lightbox', class extends HTMLElement {
 	constructor() {
 		super();
@@ -553,7 +509,6 @@ customElements.define('slider-lightbox', class extends HTMLElement {
 		`;
 	}
 })
-
 customElements.define('checkbox-lightbox', class extends HTMLElement {
 	constructor() {
 		super();
@@ -581,7 +536,6 @@ customElements.define('checkbox-lightbox', class extends HTMLElement {
 		`;
 	}
 })
-
 customElements.define('boolean-lightbox', class extends HTMLElement {
 	constructor() {
 		super();
@@ -613,7 +567,6 @@ customElements.define('boolean-lightbox', class extends HTMLElement {
 		`;
 	}
 })
-
 customElements.define('close-cancel', class extends HTMLElement {
 	constructor() {
 		super();
@@ -652,7 +605,6 @@ customElements.define('close-cancel', class extends HTMLElement {
 		`;
 	}
 })
-
 customElements.define('save-close', class extends HTMLElement {
 	constructor() {
 		super();
@@ -683,7 +635,6 @@ customElements.define('save-close', class extends HTMLElement {
 		`;
 	}
 })
-
 customElements.define('selected-variable', class extends HTMLElement {
 	constructor(){
 		super();
@@ -701,7 +652,6 @@ customElements.define('selected-variable', class extends HTMLElement {
 		`;
 	}
 })
-
 customElements.define('slider-holder', class extends HTMLElement {
 	constructor() {
 		super();
@@ -739,10 +689,8 @@ customElements.define('slider-holder', class extends HTMLElement {
 		`;
 	}
 })
-
 customElements.define('gradient-slider', class extends HTMLElement {
 });
-
 customElements.define('clear-button', class extends HTMLElement {
 	constructor() {
 		super();
@@ -776,7 +724,6 @@ customElements.define('clear-button', class extends HTMLElement {
 		`;
 	}
 });
-
 customElements.define('lightbox-slider', class extends HTMLElement {
 	constructor(){
 		super();
@@ -802,7 +749,6 @@ customElements.define('lightbox-slider', class extends HTMLElement {
 		`;
 	}
 })
-
 customElements.define('checkbox-holder', class extends HTMLElement {
 	constructor() {
 		super();
@@ -827,7 +773,6 @@ customElements.define('checkbox-holder', class extends HTMLElement {
 		`;
 	}
 })
-
 customElements.define('photo-collage', class extends HTMLElement {
 	constructor() {
 		super();
@@ -850,7 +795,6 @@ customElements.define('photo-collage', class extends HTMLElement {
 		`;
 	}
 })
-
 customElements.define('img-holder', class extends HTMLElement {
 	constructor() {
 		super();
@@ -902,7 +846,6 @@ customElements.define('img-holder', class extends HTMLElement {
 		`;
 	}
 })
-
 customElements.define('toggle-view', class extends HTMLElement {
 	constructor() {
 		super();
@@ -930,7 +873,6 @@ customElements.define('toggle-view', class extends HTMLElement {
 			transition:0.25s ease-in-out;
 		}
 		::slotted( span:hover ){
-
 			text-decoration:underline;
 		}
 		@media screen and (max-width:900px){
@@ -943,7 +885,6 @@ customElements.define('toggle-view', class extends HTMLElement {
 		`;
 	}
 })
-
 customElements.define("mobile-instructions", class extends HTMLElement {
 	constructor(){
 		super();
@@ -964,7 +905,6 @@ customElements.define("mobile-instructions", class extends HTMLElement {
 		`;
 	}
 })
-
 //Change arrow direction for mobile instructions
 function getSliderInstructions(){
 	var target = document.querySelector('instructions-section');
@@ -980,16 +920,13 @@ function getSliderInstructions(){
 		})
 	};
 }
-
 getSliderInstructions();
-
 function positionInstructions() {
 	var target = document.querySelector('instructions-section');
 	targetHeight = parseFloat(window.getComputedStyle(target).height/2);
 	console.log(targetHeight);
 	target.style.marginTop = targetHeight;
 }
-
 // Create buttons for visual variables
 data = [
 	{"id": "pl", "type": "int", "hierarchy": 1},
@@ -1013,7 +950,6 @@ data = [
 	 // int: 0,1,2,3,4,5
 	 // {"id": "submit"}
 ]
-
 for(i=0;i<data.length;i++) {
 	label = data[i]["id"];
 	customElements.define(label+'-value', class extends HTMLElement {
@@ -1032,7 +968,6 @@ for(i=0;i<data.length;i++) {
 		}
 	})
 }
-
 // Calc-buttons behavior
 for(i=0;i<data.length;i++){
 	hierarchy = data[i]["hierarchy"];
@@ -1066,7 +1001,6 @@ for(i=0;i<data.length;i++){
 			.exit()
 	}
 }
-
 var other = document.createElement('calc-buttons');
 other.innerHTML = "More Filters";
 other.style.width = "45%";
@@ -1076,22 +1010,18 @@ other.style.paddingBottom = "4%"
 other.style.textAlign = "center";
 other.style.backgroundColor = "#F1B59A";
 other.id = "other-filters";
-
 document.querySelector('buttons-module').appendChild(other);
 other.addEventListener("click", function() {
 	booleanOn();
 })
-
 function sliderOn() {
 	document.querySelector('slider-lightbox').style.display="inline-block";
 	document.querySelector('bg-overlay').style.display="block";
 }
-
 function checkboxOn() {
 	document.querySelector('checkbox-lightbox').style.display="inline-block";
 	document.querySelector('bg-overlay').style.display="block";
 }
-
 function booleanOn() {
 	document.querySelector('boolean-lightbox').style.display="inline-block";
 	document.querySelector('bg-overlay').style.display="block";
@@ -1100,10 +1030,8 @@ function booleanOn() {
 var buttons = document.getElementsByTagName('calc-buttons');
 for(i=0;i<buttons.length;i++) {
 	buttons[i].onclick=function () {
-
 		document.querySelector('html').style.position="fixed";
 		tracking = this.id;
-
 		if (tracking === "pl") {
 			document.querySelector('.variable-name').textContent = 'Placement';
 		} else if (tracking === "sh") {
@@ -1136,7 +1064,6 @@ for(i=0;i<buttons.length;i++) {
 	}
 	positionInstructions();
 }
-
 // When click on close-cancel, don't save any output
 var cancel = document.getElementsByTagName('close-cancel');
 for (i=0;i<cancel.length;i++){
@@ -1148,11 +1075,8 @@ for (i=0;i<cancel.length;i++){
 		document.querySelector('bg-overlay').style.display="none";
 	}
 }
-
 	
-
 // When click on save and close, send values to output screen
-
 var close = document.getElementsByTagName('save-close');
 for (i=0;i<close.length;i++){
 	
@@ -1162,12 +1086,10 @@ for (i=0;i<close.length;i++){
 		console.log(parentName);
 		var parentID = document.querySelector(parentName);
 		document.querySelector('html').style.position="relative";
-
 		document.querySelector('slider-lightbox').style.display="none";
 		document.querySelector('checkbox-lightbox').style.display="none";
 		document.querySelector('boolean-lightbox').style.display="none";
 		document.querySelector('bg-overlay').style.display="none";
-
 		function fillOutput() {
 			if(parentName != "BOOLEAN-LIGHTBOX") {
 				var parentID = document.querySelector(parentName);
@@ -1193,23 +1115,17 @@ for (i=0;i<close.length;i++){
 				}
 			}
 		};
-
 		fillOutput();
 		updateData();
 	}
 }
-
-
 function updateData () {
 	// Store saved values and return images
-
 	directory = [];
-
 	for(i=0;i<data.length;i++) {
 		storedVarName = data[i]['id'];
 		storedVarType = data[i]['type']
 		ref = document.querySelector(storedVarName+'-value');
-
 		if(ref.innerHTML!= "") {
 			storedVarVal = ref.querySelector('h5').innerHTML;
 			if (storedVarType == "int") {
@@ -1250,7 +1166,6 @@ function updateData () {
 		}
 	}
 	console.log(directory);
-
 	// Get the data
 	json_path = 'https://raw.githubusercontent.com/3milychu/visuncertainty/master/data/data.json'
 	var xttp = new XMLHttpRequest();
@@ -1258,10 +1173,8 @@ function updateData () {
 	xttp.send();
 	xttp.onreadystatechange = function() {
 		if(this.readyState == 4 && this.status == 200) {
-
 			df = JSON.parse(this.responseText);
 			// console.log(df);
-
 				// Filter data by selected variables
 				df = df.filter(function(obj) {
 				    return directory.reduce(function(a, f) {
@@ -1271,7 +1184,6 @@ function updateData () {
 				// console.log(df.length);
 				console.log(df);
 				document.querySelector('#output-count').innerHTML = df.length + " Images";
-
 				//Populate photo collage
 				d3.select("photo-collage").selectAll("img-holder").remove();
 				d3.select("photo-collage").selectAll('photo-collage')
@@ -1286,7 +1198,6 @@ function updateData () {
 					.attr("src", function(d) 
 						{return "http://visualizeuncertainty.io/img_cropped/" + d.s_no + ".jpg";})
 					.exit()
-
 				var min=d3.min(df, function(d) {return d.s_no;});
 				var max=d3.max(df, function(d) {return d.s_no;});
 				console.log(min,max);
@@ -1302,12 +1213,9 @@ function updateData () {
 					.html(function(d) {return "<p>"+d.title +"<br><br>"+ d.artist+"</p>";})
 					.exit();
 				}
-
 				}
 		}
-
 }
-
 // When click on clear, clear content inside parent element
 document.body.addEventListener("click", function () {
 	var clearButtons = document.getElementsByTagName('clear-button');
@@ -1318,14 +1226,11 @@ document.body.addEventListener("click", function () {
 			updateData();
 		}
 	}
-
 })
-
 // Slider bins
 var slider = document.querySelector('slider-holder');
 var gradient = document.querySelector('gradient-slider');
 slider.onscroll = function () {
-
 	if( window.innerWidth <= 900) {
 		// console.log(this.scrollLeft)
 		value = this.scrollLeft;
@@ -1359,7 +1264,6 @@ slider.onscroll = function () {
 		};
 	}
 }
-
 // Checkbox-lightbox filters
 var checkbox_lightbox = document.querySelector('checkbox-lightbox');
 var radios = checkbox_lightbox.getElementsByTagName('input');
@@ -1372,7 +1276,6 @@ for (i=0;i<radios.length;i++){
 		document.getElementsByClassName('variable-value')[1].textContent = checkedValue;
 	}
 }
-
 // Boolean0lightbox filters
 var boolean_lightbox = document.querySelector('boolean-lightbox');
 var filters = boolean_lightbox.getElementsByTagName('input');
@@ -1424,20 +1327,15 @@ for (i=0;i<filters.length;i++){
 		}
 	}
 }
-
 // When click on an image, pop up the image in lightbox-slider
-
 function loadLightbox() {
-
 	var collage = document.querySelector('photo-collage');
 	var lightbox = document.querySelector('lightbox-slider');
 	var clickableImages = collage.getElementsByTagName('img');
 	console.log(clickableImages);
-
 	document.body.addEventListener("click", function () {
 		for(i=0;i<clickableImages.length;i++) {
 			clickableImages[i].addEventListener("click", function() {
-
 				console.log("this works!");
 				lightbox.innerHTML = "";
 				lightbox.style.display="block";
@@ -1445,17 +1343,12 @@ function loadLightbox() {
 				elem.id = this.id;
 				elem.src = this.src;
 				document.querySelector('lightbox-slider').appendChild(elem);
-
 			})
 		}
 	})
-
 }
-
 // 
-
 function toggleView() {
-
 	var span_calc = document.querySelector('#calc');
 	var span_gallery = document.querySelector('#gallery');
 	var output_screen = document.querySelector('output-screen');
@@ -1465,7 +1358,6 @@ function toggleView() {
 	var toggle_list = document.querySelectorAll('span');
 	var img_holders = document.querySelectorAll('img-holder');
 	var output_count = document.querySelector('#output-count');
-
 	function update() {
 		condition = window.getComputedStyle(output_screen, null).getPropertyValue("display");
 		console.log(condition);
@@ -1478,11 +1370,8 @@ function toggleView() {
 			span_gallery.style.color = "#FFF";
 		}
 	}
-
 	update();
-
 	if( window.innerWidth <= 900) {
-
 		span_calc.addEventListener("click", function() {
 			output_screen.style.display = "inline-block";
 			output_screen.style.width = "100%";
@@ -1492,7 +1381,6 @@ function toggleView() {
 			toggle.style.width = "100%";		
 			update();
 		})
-
 		span_gallery.addEventListener("click", function() {
 			output_screen.style.width = "0%";
 			output_screen.style.display = "none";
@@ -1502,7 +1390,6 @@ function toggleView() {
 			toggle.style.width = "100%";
 			update();
 		});
-
 		output_count.addEventListener("click", function() {
 			output_screen.style.width = "0%";
 			output_screen.style.display = "none";
@@ -1512,9 +1399,7 @@ function toggleView() {
 			toggle.style.width = "100%";	
 			update();
 		});
-
 	} else {
-
 		span_calc.addEventListener("click", function() {
 			output_screen.style.display = "inline-block";
 			output_screen.style.width = "50%";
@@ -1527,7 +1412,6 @@ function toggleView() {
 			}
 			update();
 		})
-
 		span_gallery.addEventListener("click", function() {
 			output_screen.style.width = "0%";
 			output_screen.style.display = "none";
@@ -1540,7 +1424,6 @@ function toggleView() {
 			}
 			update();
 		});
-
 		output_count.addEventListener("click", function() {
 			output_screen.style.width = "0%";
 			output_screen.style.display = "none";
@@ -1553,14 +1436,9 @@ function toggleView() {
 			}			
 			update();
 		});
-
 	};
-
 };
-
 toggleView();
-
-
 </script>
 
 

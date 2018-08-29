@@ -96,19 +96,6 @@ boolean-lightbox .variable-value {
 	display:none;
 }
 /*image captions*/
-.overlay {
-	position:absolute;
-	top: 0;
-  	bottom: 0;
-  	left: 0;
-  	right: 0;
-	width:100%;
-	height:100%;
-	opacity:0;
-	background-color:black;
-	transition:0.25s ease-in-out;
-	line-height:1em;
-}
 .overlay p {
 	text-align:center;
 	color:white;
@@ -117,7 +104,7 @@ boolean-lightbox .variable-value {
 	letter-spacing:0.05em;
 }
 img-holder:hover .overlay {
-	opacity:1;
+	opacity:0.9;
 	display:inline-block;
 }
 
@@ -163,6 +150,29 @@ input:checked + .slider:before {
   -ms-transform: translateX(26px);
   transform: translateX(26px);
 }
+
+/*mobile instructions*/
+
+@keyframes swipever {
+	0% {margin-top:-15%;}
+	50% {margin-top:-30%;}
+	100% {margin-top:-15%;}
+}
+
+@keyframes swipehor {
+	0% {margin-left:-30%;}
+	50% {margin-left:40%;}
+	100% {margin-left:-30%;}
+}
+
+instructions-section img {
+	display:block;
+	width:15%;
+	margin-left:-2%;
+	position:absolute;
+	animation: swipever 3s infinite ease-in-out;
+}
+
 /* Rounded sliders */
 .slider.round {
   border-radius: 34px;
@@ -192,6 +202,12 @@ input:checked + .slider:before {
 	}
 	site-logo {
 		padding:5%;
+	}
+	instructions-section img {
+		width:30%;
+		margin-left:15%;
+		margin-top:-30%;
+		animation: swipehor 3s infinite ease-in-out;
 	}
 }
 </style>
@@ -790,17 +806,9 @@ customElements.define('img-holder', class extends HTMLElement {
 			height:100%;
 			background-color:black;
 			transition:0.25s ease-in-out;
+			opacity:0;
 			z-index:1;
-		}
-		::slotted( p ) {
-			text-align:center;
-			color:white;
-		    top: 50%;
-		    left: 50%;
-		    -webkit-transform: translate(-50%, -50%);
-		    -ms-transform: translate(-50%, -50%);
-		    transform: translate(-50%, -50%);
-		    text-align: center;
+			line-height:1em;
 		}
 		@media screen and (max-width:900px){
 			:host {
@@ -857,14 +865,23 @@ customElements.define("mobile-instructions", class extends HTMLElement {
 		this.attachShadow({mode:"open"}).innerHTML=`
 		<style>
 		:host {
+			position:absolute;
 			display:inline-block;
 			width:100%;
 			height:100%;
-			color:#CCCCCC;
-			text-transform:uppercase;
+			color:white;
+			font-weight:200;
+			transform:translate(9%,90%)
 		}
 		::slotted( instructions-section ){
 			display:block;
+			font-size:0.8em;
+
+		}
+		@media screen and (max-width:900px) {
+			:host {
+				transform:translate(30%,20%);
+			}
 		}
 		</style>
 		<slot></slot>
@@ -875,12 +892,12 @@ customElements.define("mobile-instructions", class extends HTMLElement {
 function getSliderInstructions(){
 	var target = document.querySelector('instructions-section');
 	if( window.innerWidth <= 900) {
-		target.innerHTML="&larr; Swipe to set value &rarr;";
+		target.innerHTML="<img src='assets/swipe-icon.png'>&larr; Swipe to set value &rarr;";
 		target.addEventListener('touchstart',function() {
 			target.style.display="none";
 		})
 	} else {
-		target.innerHTML="&uarr; Swipe to set value &darr;";
+		target.innerHTML="<img src='assets/swipe-icon.png'>&uarr; Swipe to set value &darr;";
 		target.addEventListener("click", function() {
 			target.style.display="none";
 		})
@@ -1193,10 +1210,24 @@ document.body.addEventListener("click", function () {
 		}
 	}
 })
+
+// When click on slider holder, mobile instructions disappear
+
+var slider = document.querySelector('slider-holder');
+var mobile_instructions = document.querySelector("mobile-instructions");
+slider.addEventListener("click", function() {
+	mobile_instructions.style.display = "none";
+})
+
+slider.addEventListener('touchstart', function() {
+  mobile_instructions.style.display = "none";
+});
+
 // Slider bins
 var slider = document.querySelector('slider-holder');
 var gradient = document.querySelector('gradient-slider');
 slider.onscroll = function () {
+	mobile_instructions.style.display = "none";
 	if( window.innerWidth <= 900) {
 		// console.log(this.scrollLeft)
 		value = this.scrollLeft;

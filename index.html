@@ -95,6 +95,7 @@ output-screen h1 {
 boolean-lightbox .variable-value {
 	display:none;
 }
+
 /*image captions*/
 .overlay p {
 	margin-top:50%;
@@ -984,6 +985,14 @@ for(i=0;i<data.length;i++){
 			.style("text-align", "center")
 			.style("padding-top", "3%")
 			.style("padding-bottom", "3%")
+			.on("mouseover", function() {
+				d3.select(this)
+				.style("background-color", "white")
+			})
+			.on("mouseout", function() {
+				d3.select(this)
+				.style("background-color", "#F19368")
+			})
 			.on("click", checkboxOn)
 			.exit()
 	}
@@ -995,12 +1004,23 @@ other.style.fontSize = "1.3em";
 other.style.paddingTop = "7%"
 other.style.paddingBottom = "4%"
 other.style.textAlign = "center";
+other.style.cursor = "pointer";
 other.style.backgroundColor = "#F1B59A";
 other.id = "other-filters";
+
 document.querySelector('buttons-module').appendChild(other);
 other.addEventListener("click", function() {
 	booleanOn();
 })
+
+other.addEventListener("mouseover", function() {
+	other.style.backgroundColor = "white";
+})
+
+other.addEventListener("mouseout", function() {
+	other.style.backgroundColor = "#F1B59A";
+})
+
 function sliderOn() {
 	document.querySelector('slider-lightbox').style.display="inline-block";
 	document.querySelector('bg-overlay').style.display="block";
@@ -1082,9 +1102,12 @@ for (i=0;i<close.length;i++){
 				var parentID = document.querySelector(parentName);
 				document.querySelector("#default-message").textContent = "";
 				var name = parentID.querySelector('.variable-name').innerHTML;
-				document.querySelector(tracking+'-value').innerHTML =  "<h5>" + 
+				var value = parentID.querySelector('.variable-value').innerHTML;
+				if(value != "") {
+					document.querySelector(tracking+'-value').innerHTML =  "<h5>" + 
 					parentID.querySelector('.variable-value').innerHTML + 
 					"</h5> " + name + "<clear-button>x</clear-button>";
+				} 
 			} else if (parentName == "BOOLEAN-LIGHTBOX"){
 				document.querySelector("#default-message").textContent = "";
 				var boolean_lightbox = document.querySelector('boolean-lightbox');

@@ -41,7 +41,7 @@ nav {
 	font-size:2em;
 	margin-top:-1%;
 }
-selected-variable h1, boolean-lightbox h1 {
+selected-variable h1, boolean-lightbox h1, checkbox-lightbox h1 {
 	font-size:1em;
 	text-transform:uppercase;
 	letter-spacing:0.05em;
@@ -93,6 +93,10 @@ output-screen h1 {
 	font-size:1.5em;
 }
 boolean-lightbox .variable-value {
+	display:none;
+}
+
+checkbox-lightbox .variable-value {
 	display:none;
 }
 
@@ -247,14 +251,28 @@ instructions-section img {
 
 	<checkbox-lightbox>
 		<close-cancel>X</close-cancel>
-		<selected-variable>
+		<checkbox-holder>
+		<div id="po">
 			<h1 class="variable-name"></h1>
 			<h2 class="variable-value"></h1>
-		</selected-variable>
-		<checkbox-holder>
-			  <input type="radio" name="ordinal" value="Extremely Strong"> Extremely Strong<br>
-			  <input type="radio" name="ordinal" value="Somewhat Strong"> Somewhat Strong<br>
-			  <input type="radio" name="ordinal" value="None"> None
+			  <input type="radio" name="re" value="Extremely Strong"> Extremely Strong<br>
+			  <input type="radio" name="re" value="Somewhat Strong"> Somewhat Strong<br>
+			  <input type="radio" name="re" value="None"> None
+		</div>
+		<div id="li">
+			<h1 class="variable-name"></h1>
+			<h2 class="variable-value"></h1>
+			  <input type="radio" name="re" value="Extremely Strong"> Extremely Strong<br>
+			  <input type="radio" name="re" value="Somewhat Strong"> Somewhat Strong<br>
+			  <input type="radio" name="re" value="None"> None
+		</div>
+		<div id="ar">
+			<h1 class="variable-name"></h1>
+			<h2 class="variable-value"></h1>
+			  <input type="radio" name="re" value="Extremely Strong"> Extremely Strong<br>
+			  <input type="radio" name="re" value="Somewhat Strong"> Somewhat Strong<br>
+			  <input type="radio" name="re" value="None"> None
+		</div>
 		</checkbox-holder>
 		<save-close>Save</save-close>
 	</checkbox-lightbox>
@@ -749,7 +767,6 @@ customElements.define('checkbox-holder', class extends HTMLElement {
 			:host {
 				width:100%;
 				height:30%;
-				padding-top:30%;
 			}
 		}
 		</style>
@@ -956,7 +973,31 @@ for(i=0;i<data.length;i++) {
 		}
 	})
 }
-// Calc-buttons behavior
+
+// Clear button
+var clear = document.createElement('calc-buttons');
+clear.innerHTML = "C";
+clear.style.textAlign = "center";
+clear.style.paddingTop = "3%";
+clear.style.paddingBottom = "3%";
+clear.style.backgroundColor = "#F1B59A";
+clear.style.cursor = "pointer";
+clear.id = "clear";
+document.querySelector('buttons-module').appendChild(clear);
+clear.addEventListener("click", function() {
+	clearOutput();
+	updateData();
+})
+
+function clearOutput() {
+	for(i=0;i<data.length;i++){
+		tracking = data[i]['id'];
+		document.querySelector(tracking+'-value').innerHTML = "";
+	}
+}
+
+
+// Bertin Button Group
 for(i=0;i<data.length;i++){
 	hierarchy = data[i]["hierarchy"];
 	id = data[i]["id"];
@@ -973,30 +1014,35 @@ for(i=0;i<data.length;i++){
 			.style("padding-bottom", "3%")
 			.on("click", sliderOn)
 			.exit()
-	} else if (hierarchy == 2) {
-		d3.select('buttons-module').selectAll("buttons-module")
-			.data(data.filter(function (d) { return d.id === id;}))
-			.enter()
-			.append('calc-buttons')
-			.attr("id", function(d) {return d.id})
-			.style("cursor", "pointer")
-			.style("background-color", "#F19368")
-			.text(function(d) {return d.id})
-			.style("text-align", "center")
-			.style("padding-top", "3%")
-			.style("padding-bottom", "3%")
-			.on("mouseover", function() {
-				d3.select(this)
-				.style("background-color", "white")
-			})
-			.on("mouseout", function() {
-				d3.select(this)
-				.style("background-color", "#F19368")
-			})
-			.on("click", checkboxOn)
-			.exit()
 	}
 }
+// Point Line Area Button Group
+var po_li_ar = document.createElement('calc-buttons');
+po_li_ar.innerHTML = "PO / LI / AR";
+po_li_ar.style.width = "45%";
+po_li_ar.style.fontSize = "1.3em";
+po_li_ar.style.paddingTop = "7%"
+po_li_ar.style.paddingBottom = "4%"
+po_li_ar.style.textAlign = "center";
+po_li_ar.style.cursor = "pointer";
+po_li_ar.style.backgroundColor = "#F1B59A";
+po_li_ar.id = "po-li-ar";
+
+document.querySelector('buttons-module').appendChild(po_li_ar);
+po_li_ar.addEventListener("click", function() {
+	checkboxOn();
+})
+
+po_li_ar.addEventListener("mouseover", function() {
+	po_li_ar.style.backgroundColor = "white";
+})
+
+po_li_ar.addEventListener("mouseout", function() {
+	po_li_ar.style.backgroundColor = "#F1B59A";
+})
+
+
+// Other Filters Button Group
 var other = document.createElement('calc-buttons');
 other.innerHTML = "More Filters";
 other.style.width = "45%";
@@ -1020,6 +1066,8 @@ other.addEventListener("mouseover", function() {
 other.addEventListener("mouseout", function() {
 	other.style.backgroundColor = "#F1B59A";
 })
+
+
 
 function sliderOn() {
 	document.querySelector('slider-lightbox').style.display="inline-block";
@@ -1061,12 +1109,16 @@ for(i=0;i<buttons.length;i++) {
 			document.getElementsByClassName('variable-name')[1].textContent = 'Area';
 		} else if (tracking === "other-filters") {
 			console.log("you clicked other filters!");
-			document.getElementsByClassName('variable-name')[2].textContent = 'Representational';
-			document.getElementsByClassName('variable-name')[3].textContent = 'Spatial';
-			document.getElementsByClassName('variable-name')[4].textContent = 'Kinetic';
-			document.getElementsByClassName('variable-name')[5].textContent = 'Reflection';
-			document.getElementsByClassName('variable-name')[6].textContent = 'Map';
-			document.getElementsByClassName('variable-name')[7].textContent = 'Has Text';
+			document.getElementsByClassName('variable-name')[4].textContent = 'Representational';
+			document.getElementsByClassName('variable-name')[5].textContent = 'Spatial';
+			document.getElementsByClassName('variable-name')[6].textContent = 'Kinetic';
+			document.getElementsByClassName('variable-name')[7].textContent = 'Reflection';
+			document.getElementsByClassName('variable-name')[8].textContent = 'Map';
+			document.getElementsByClassName('variable-name')[9].textContent = 'Has Text';
+		} else if (tracking === "po-li-ar") {
+			document.getElementsByClassName('variable-name')[1].textContent = 'Point';
+			document.getElementsByClassName('variable-name')[2].textContent = 'Line';
+			document.getElementsByClassName('variable-name')[3].textContent = 'Area';
 		}
 	}
 	positionInstructions();
@@ -1098,7 +1150,7 @@ for (i=0;i<close.length;i++){
 		document.querySelector('boolean-lightbox').style.display="none";
 		document.querySelector('bg-overlay').style.display="none";
 		function fillOutput() {
-			if(parentName != "BOOLEAN-LIGHTBOX") {
+			if(parentName == "SLIDER-LIGHTBOX") {
 				var parentID = document.querySelector(parentName);
 				document.querySelector("#default-message").textContent = "";
 				var name = parentID.querySelector('.variable-name').innerHTML;
@@ -1123,7 +1175,22 @@ for (i=0;i<close.length;i++){
 						document.querySelector(parentName+'-value').innerHTML =  "";
 					};
 				}
-			}
+			} else if (parentName == "CHECKBOX-LIGHTBOX") {
+				document.querySelector("#default-message").textContent = "";
+				var checkbox_lightbox = document.querySelector('checkbox-lightbox');
+				var names = checkbox_lightbox.querySelectorAll('.variable-name');
+				console.log(names.length);
+				for(i=0;i<names.length;i++){
+					parentName = names[i].parentElement.id;
+					var parentID = document.getElementById(parentName);
+					if( parentID.querySelector('.variable-value').innerHTML!= ""){
+						name = names[i].innerHTML;
+						document.querySelector(parentName+'-value').innerHTML =  "<h5>" + parentID.querySelector('.variable-value').innerHTML + "</h5> " + name + "<clear-button>x</clear-button>";
+					} else {
+						document.querySelector(parentName+'-value').innerHTML =  "";
+					};
+				}
+			}  
 		};
 		fillOutput();
 		updateData();
@@ -1300,7 +1367,38 @@ for (i=0;i<radios.length;i++){
 		document.getElementsByClassName('variable-value')[1].textContent = checkedValue;
 	}
 }
-// Boolean0lightbox filters
+// checkboxlightbox filters
+var checkbox_lightbox = document.querySelector('checkbox-lightbox');
+var filters = checkbox_lightbox.getElementsByTagName('input');
+for (i=0;i<filters.length;i++){
+	filters[i].onclick=function() {
+		parentID = this.parentElement.id;
+		console.log(parentID);
+		var target = document.getElementById(parentID);
+		type = this.type;
+		checked = this.checked;
+		value = this.value;
+		name = this.name;
+		console.log(type);
+		if (type == "radio") {
+			var selectionValue = target.querySelector('input:checked').value;
+			target.querySelector('.variable-value').innerHTML = selectionValue;
+		} else if (type =="checkbox" && checked == true && name == "po") {
+			parentID = "po";
+			var target = document.getElementById(parentID);
+			target.querySelector('.variable-value').innerHTML = value;
+		} else if (type =="checkbox" && checked == true && name == "li") {
+			parentID = "li";
+			var target = document.getElementById(parentID);
+			target.querySelector('.variable-value').innerHTML = value;
+		} else if (type =="checkbox" && checked == true && name == "ar"){
+			parentID = "ar";
+			var target = document.getElementById(parentID);
+			target.querySelector('.variable-value').innerHTML = value;
+		} 
+	}
+}
+// Boolean-lightbox filters
 var boolean_lightbox = document.querySelector('boolean-lightbox');
 var filters = boolean_lightbox.getElementsByTagName('input');
 for (i=0;i<filters.length;i++){

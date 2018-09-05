@@ -980,7 +980,7 @@ clear.innerHTML = "C";
 clear.style.textAlign = "center";
 clear.style.paddingTop = "3%";
 clear.style.paddingBottom = "3%";
-clear.style.backgroundColor = "#F1B59A";
+clear.style.backgroundColor = "#e5e0e0";
 clear.style.cursor = "pointer";
 clear.id = "clear";
 document.querySelector('buttons-module').appendChild(clear);
@@ -988,6 +988,16 @@ clear.addEventListener("click", function() {
 	clearOutput();
 	updateData();
 })
+
+clear.addEventListener("mouseover", function() {
+	clear.style.backgroundColor = "#white";
+})
+
+clear.addEventListener("mouseout", function() {
+	clear.style.backgroundColor = "#e5e0e0";
+})
+
+
 
 function clearOutput() {
 	for(i=0;i<data.length;i++){
@@ -1021,7 +1031,7 @@ var po_li_ar = document.createElement('calc-buttons');
 po_li_ar.innerHTML = "PO / LI / AR";
 po_li_ar.style.width = "45%";
 po_li_ar.style.fontSize = "1.3em";
-po_li_ar.style.paddingTop = "7%"
+po_li_ar.style.paddingTop = "6%"
 po_li_ar.style.paddingBottom = "4%"
 po_li_ar.style.textAlign = "center";
 po_li_ar.style.cursor = "pointer";
@@ -1047,7 +1057,7 @@ var other = document.createElement('calc-buttons');
 other.innerHTML = "More Filters";
 other.style.width = "45%";
 other.style.fontSize = "1.3em";
-other.style.paddingTop = "7%"
+other.style.paddingTop = "6%"
 other.style.paddingBottom = "4%"
 other.style.textAlign = "center";
 other.style.cursor = "pointer";

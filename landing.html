@@ -51,6 +51,7 @@ body, html {
 	width:80%;
 	height:90%;
 	margin:auto;
+	padding-top:25%;
 }
 
 .section3 .content {
@@ -114,7 +115,6 @@ body, html {
 .point div {
 	width:1em;
 	height:1em;
-	background-color:black;
 	position:absolute;
 	border-radius:2em;
 	background-color:#F16E31;
@@ -127,10 +127,10 @@ body, html {
 	z-index:0;
 	opacity:1;
 }
-.area polygon {
-	fill:#EB2E2F;
-	z-index:0;
-	opacity:1;
+.area div {
+	width:20em;
+	height:15em;
+	background-color:#EB2E2F;
 }
 .section1_5 img {
 	width:100%;
@@ -170,9 +170,7 @@ body, html {
 			<hr>
 		</div>
 		<div class='area'>
-			<svg height="210" width="500">
-			  <polygon points="200,10 320,190 120,210" />
-			</svg>
+			<div></div>
 		</div>
 	</div>
 </div>
@@ -180,6 +178,7 @@ body, html {
 <div class='section1_5'>
 	<div class='content'>
 		<img src="https://www.tate.org.uk/art/images/work/T/T01/T01995_10.jpg">
+		<p><b>Winifred Nicholson,</b> Quarante Huit Quai d’Auteuil <em>(1935)</em></p>
 	</div>
 </div>
 
@@ -233,29 +232,40 @@ var points = points_section.querySelectorAll('div');
 var line_section = document.querySelector('.line')
 var lines = line_section.querySelectorAll('hr');
 var area_section = document.querySelector('.area')
-var area = area_section.querySelector('polygon');
+var area = area_section.querySelector('div');
 var w = window.innerWidth/3;
 var h = window.innerHeight;
 
 function getpoints() {
 	for(i=0;i<points.length;i++){
 	point = points[i];
-	point.style.transform="translate("+ Math.floor((Math.random() * w) + 1)+"px," + Math.floor((Math.random() * h/1.5) + 1)+"px)";
+	point.style.transform="translate("+ Math.floor((Math.random() * w) + 1)+"px," + Math.floor((Math.random() * h/1.5) + -h/4)+"px)";
 	point.style.transition="all 0.5s ease-in";
+	point.style.backgroundColor="#F16E31";
 	}
 }
 
 function getlines() {
 	for(i=0;i<lines.length;i++){
 	line= lines[i];
-	line.style.transform="translate("+ Math.floor((Math.random() * w) + 1)+"px," + Math.floor((Math.random() * h/1.5) + 1)+"px) rotate(" + Math.floor((Math.random() * 180) +1) + "deg)";
+	line.style.transform="translate("+ Math.floor((Math.random() * w) + 1)+"px," + Math.floor((Math.random() * h/1.5) + -h/4)+"px) rotate(" + Math.floor((Math.random() * 180) +1) + "deg)";
 	random=Math.floor((Math.random() * 10) + 0.5)
 	line.style.borderTop=random+"px solid black";
 	line.style.transition="all 0.5s ease-in";
 	}
 }
+
+function getarea() {
+	area.style.transform="translate("+ 0 + "px," + 0+"px) rotate(45deg)";
+	area.style.width="20em";
+	area.style.height="15em";
+	area.style.transition="all 1s ease-in"
+	area.style.backgroundColor="#EB2E2F";
+}
+
 getpoints();
 getlines();
+getarea();
 
 toggleSection();
 
@@ -279,20 +289,24 @@ function toggleSection() {
 		}
 		getpoints();
 		getlines();
+		getarea();
+		iframe.style.transform="scale(0.3)";
 	} else if (window.pageYOffset < $(section2).offset().top) {
 		for(i=0;i<points.length;i++){
 				point = points[i];
-				point.style.transform="translate("+ Math.floor((Math.random() * w) + 1)+"px," + h*1.5 +"px)";
-				// point.style.opacity="0";
+				point.style.backgroundColor="#EADFB1";
+				point.style.transform="translate("+ Math.floor((Math.random() * w) + 1)+"px," + Math.floor((Math.random() * h*1.12) + h*0.8)+"px)";
 			}
 		for(i=0;i<lines.length;i++){
 			line= lines[i];
 			var slant = Math.random() < 0.5 ? 90 : 180;
 			line.style.transform="translate("+ Math.floor((Math.random() * w) + 1)+"px," + h*1.5 + "px) rotate(" + slant + "deg)";
 		}
-		area.style.transform="translate("+ Math.floor((Math.random() * w) + 1)+"px," + h*1.5 +"px)";
+		area.style.transform="translate("+ w/3.2+"px," + h*1.21 +"px)";
+		area.style.width="12em";
+		area.style.height="13em";
 		area.style.transition="all 1s ease-in"
-		area.style.fill="blue";
+		area.style.backgroundColor="#C1D1E1";
 	} else if (window.pageYOffset < $(section3).offset().top) {
 		first.style.fontWeight="200";
 		second.style.fontWeight="900";
@@ -320,13 +334,13 @@ first.addEventListener("click", function() {
 
 second.addEventListener("click", function() {
 	 $('html, body').animate({
-      scrollTop: $(section2).offset().top
+      scrollTop: $(iframe).offset().top
     }, 800)
 });
 
 third.addEventListener("click", function() {
 	 $('html, body').animate({
-      scrollTop: $(section3).offset().top
+      scrollTop: $(cards).offset().top
     }, 800)
 });
 

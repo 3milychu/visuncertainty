@@ -3,6 +3,7 @@
 <head>
 	<title>Visualize Uncertainty</title>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+	<meta name="viewport" content="width=device-width">
 </head>
 <style>
 body, html {
@@ -60,7 +61,7 @@ body, html {
 }
 
 .section2 iframe{
-	transform-origin: 30 50;
+	transform-origin: 30% 50%;
 	transform: scale(0.3);
 	padding: 5% 0% 0% 25%;
 	transition:0.5s ease-in;
@@ -69,7 +70,7 @@ body, html {
 .card-holder {
     white-space: nowrap;
     overflow-x: scroll;
-    overflow-y:hidden;
+    overflow-y:visible;
     -webkit-overflow-scrolling: touch;
     padding-bottom:5%;
 }
@@ -135,6 +136,67 @@ body, html {
 .section1_5 img {
 	width:100%;
 	opacity:1;
+}
+
+@media screen and (max-width:900px) {
+	.sidenav {
+		width:100%;
+		height:auto;
+		padding-left:10%;
+		background-color:white;
+		opacity:.9;
+		z-index:100;
+	}
+	.logo {
+		width:40%;
+		margin:0;
+	}
+	.sidenav h1 {
+		font-size:0.8em;
+		display:inline-block;
+		margin-right:2%;
+	}
+	.contents {
+	}
+	.section1, .section1_5, .section2, .section3 {
+		width:100%;
+		height:auto;
+	}
+	.content {
+		width:80%;
+		height:90%;
+		margin:auto;
+		padding-top:25%;
+	}
+	.card-holder {
+		width:100%;
+	}
+	html, body {
+		width:100vh;
+		top:0;
+		left:0;
+	}
+	.section1 .content {
+		padding: 80% 0% 50% 0%;
+	}
+	.section1_5 .content {
+		padding: 80% 0% 0% 0%;
+	}
+	.section2 .content {
+		padding-top:50%;
+	}
+	.section3 .content {
+		width:100%;
+		margin-left:0%;
+		padding: 50% 0% 50% 0%;
+	}
+	.card {
+		width:50%;
+		height:80vh;
+	}
+	.card h1, .card img {
+		padding-left:5%;
+	}
 }
 </style>
 <body>
@@ -257,8 +319,13 @@ function getlines() {
 
 function getarea() {
 	area.style.transform="translate("+ 0 + "px," + 0+"px) rotate(45deg)";
-	area.style.width="20em";
-	area.style.height="15em";
+	if(w*3<=900) {
+		area.style.width="5em";
+		area.style.height="6em";
+	} else {
+		area.style.width="20em";
+		area.style.height="15em";
+	};
 	area.style.transition="all 1s ease-in"
 	area.style.backgroundColor="#EB2E2F";
 }
@@ -292,26 +359,53 @@ function toggleSection() {
 		getarea();
 		iframe.style.transform="scale(0.3)";
 	} else if (window.pageYOffset < $(section2).offset().top) {
-		for(i=0;i<points.length;i++){
+		if(w*3<=900){
+			for(i=0;i<points.length;i++){
+				point = points[i];
+				point.style.backgroundColor="#EADFB1";
+				point.style.transform="translate("+ Math.floor((Math.random() * w) + 1)+"px," + Math.floor((Math.random() * h/2) + h*0.8)+"px)";
+			}
+			for(i=0;i<lines.length;i++){
+				line= lines[i];
+				var slant = Math.random() < 0.5 ? 90 : 180;
+				line.style.transform="translate("+ Math.floor((Math.random() * w) + 1)+"px," + h+ "px) rotate(" + slant + "deg)";
+			}
+			area.style.transform="translate("+ w/2.5+"px," + h*0.95 +"px)";
+
+		} else {
+			for(i=0;i<points.length;i++){
 				point = points[i];
 				point.style.backgroundColor="#EADFB1";
 				point.style.transform="translate("+ Math.floor((Math.random() * w) + 1)+"px," + Math.floor((Math.random() * h*1.12) + h*0.8)+"px)";
 			}
-		for(i=0;i<lines.length;i++){
-			line= lines[i];
-			var slant = Math.random() < 0.5 ? 90 : 180;
-			line.style.transform="translate("+ Math.floor((Math.random() * w) + 1)+"px," + h*1.5 + "px) rotate(" + slant + "deg)";
+			for(i=0;i<lines.length;i++){
+				line= lines[i];
+				var slant = Math.random() < 0.5 ? 90 : 180;
+				line.style.transform="translate("+ Math.floor((Math.random() * w) + 1)+"px," + h*1.5 + "px) rotate(" + slant + "deg)";
+			}
+			area.style.transform="translate("+ w/3.2+"px," + h*1.21 +"px)";
 		}
-		area.style.transform="translate("+ w/3.2+"px," + h*1.21 +"px)";
-		area.style.width="12em";
-		area.style.height="13em";
+		
+		if(w*3<=900) {
+			area.style.width="5em";
+			area.style.height="6em";
+		} else {
+			area.style.width="12em";
+			area.style.height="13em";
+		};
 		area.style.transition="all 1s ease-in"
 		area.style.backgroundColor="#C1D1E1";
 	} else if (window.pageYOffset < $(section3).offset().top) {
 		first.style.fontWeight="200";
 		second.style.fontWeight="900";
 		third.style.fontWeight="200";
-		iframe.style.transform="scale(0.8)";
+		if(w*3<=900) {
+			iframe.style.transform="scale(1)";
+			iframe.style.paddingLeft="20%";
+			iframe.style.transformOrigin="30% 50%";
+		} else {
+			iframe.style.transform="scale(0.8)";
+		};
 
 	} else if (window.pageYOffset >= $(section3).offset().top) {
 		first.style.fontWeight="200";

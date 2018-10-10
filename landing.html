@@ -90,13 +90,13 @@ body, html {
 	background-image: linear-gradient(60deg, #EB2E2F , #F16E31);
 	transition: 0.25s ease-in;
 }
-.card.before {
+/*.card.before {
 	transform:translate3d(0px, 100px, 0);
 }
 .card.after {
 	margin-top:5%;
 	transform:translate3d(0px, 0px, 0);
-}
+}*/
 .card img {
 	width:60%;
 }
@@ -194,6 +194,7 @@ body, html {
 	.card {
 		width:50%;
 		height:80vh;
+		z-index:99;
 	}
 	.card h1, .card img {
 		padding-left:5%;
@@ -247,26 +248,26 @@ body, html {
 
 <div class='section2'>
 	<div class='content'>
-		<iframe width=339 height=700 src='index.html' frameborder=0 scrolling=yes></iframe>
+		<iframe width=339 height=700 src='index.html' frameborder=0 scrolling=no></iframe>
 	</div>
 </div>
 
 <div class='section3'>
 	<div class='content'>
 		<div class="card-holder">
-			<div class='animation-element bounce-up card'>
+			<div class='card'>
 				<h1>VISAP Paper</h1>
 				<img src="http://uncertainty.us-east-1.elasticbeanstalk.com/img_cropped/288.jpg">
 			</div>
-			<div class='animation-element bounce-up card'>
+			<div class='card'>
 				<h1>Identity Code</h1>
 				<img src="http://uncertainty.us-east-1.elasticbeanstalk.com/img_cropped/241.jpg">
 			</div>
-			<div class='animation-element bounce-up card'>
+			<div class='card'>
 				<h1>Bibliography</h1>
 				<img src="http://uncertainty.us-east-1.elasticbeanstalk.com/img_cropped/388.jpg">
 			</div>
-			<div class='animation-element bounce-up card'>
+			<div class='card'>
 				<h1>Course: Visualizing Uncertainty</h1>
 				<img src="http://uncertainty.us-east-1.elasticbeanstalk.com/img_cropped/218.jpg">
 			</div>
@@ -352,8 +353,8 @@ function toggleSection() {
 		second.style.fontWeight="200";
 		third.style.fontWeight="200";
 		for (i=0;i<cards.length;i++){
-			 var card = cards[i];
-		    card.classList.toggle('before');
+			var card = cards[i];
+			card.style.transform="translate3d(0em, 10em, 0";
 		}
 		getpoints();
 		getlines();
@@ -415,8 +416,8 @@ function toggleSection() {
 		for (i=0;i<cards.length;i++){
 			 var card = cards[i];
 		    // stagger transition with transitionDelay
-		    card.style[ transitionProp + 'Delay' ] = ( i * 50 ) + 'ms';
-		    card.classList.toggle('after');
+		    card.style[ transitionProp + 'Delay' ] = ( i * 100 ) + 'ms';
+		    card.style.transform="translate3d(0em, 0px, 0";
 				}
 	}
 }

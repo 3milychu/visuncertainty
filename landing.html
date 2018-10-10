@@ -70,7 +70,7 @@ body, html {
 .card-holder {
     white-space: nowrap;
     overflow-x: scroll;
-    overflow-y:visible;
+    overflow-y:hidden;
     -webkit-overflow-scrolling: touch;
     padding-bottom:5%;
 }
@@ -90,13 +90,6 @@ body, html {
 	background-image: linear-gradient(60deg, #EB2E2F , #F16E31);
 	transition: 0.25s ease-in;
 }
-/*.card.before {
-	transform:translate3d(0px, 100px, 0);
-}
-.card.after {
-	margin-top:5%;
-	transform:translate3d(0px, 0px, 0);
-}*/
 .card img {
 	width:60%;
 }
@@ -365,14 +358,14 @@ function toggleSection() {
 			for(i=0;i<points.length;i++){
 				point = points[i];
 				point.style.backgroundColor="#EADFB1";
-				point.style.transform="translate("+ Math.floor((Math.random() * w) + 1)+"px," + Math.floor((Math.random() * h/2) + h*0.8)+"px)";
+				point.style.transform="translate("+ Math.floor((Math.random() * w) + 1)+"px," + Math.floor((Math.random() * h) + h*0.8)+"px)";
 			}
 			for(i=0;i<lines.length;i++){
 				line= lines[i];
 				var slant = Math.random() < 0.5 ? 90 : 180;
 				line.style.transform="translate("+ Math.floor((Math.random() * w) + 1)+"px," + h+ "px) rotate(" + slant + "deg)";
 			}
-			area.style.transform="translate("+ w/2.5+"px," + h*0.97 +"px)";
+			area.style.transform="translate("+ w/2.5+"px," + h +"px)";
 
 		} else {
 			for(i=0;i<points.length;i++){

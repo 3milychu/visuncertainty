@@ -358,12 +358,12 @@ function toggleSection() {
 			for(i=0;i<points.length;i++){
 				point = points[i];
 				point.style.backgroundColor="#EADFB1";
-				point.style.transform="translate("+ Math.floor((Math.random() * w) + 1)+"px," + Math.floor((Math.random() * h*2) + h*0.8)+"px)";
+				point.style.transform="translate("+ Math.floor((Math.random() * w*3) + 1)+"px," + Math.floor((Math.random() * h*2) + h*0.8)+"px)";
 			}
 			for(i=0;i<lines.length;i++){
 				line= lines[i];
 				var slant = Math.random() < 0.5 ? 90 : 180;
-				line.style.transform="translate("+ Math.floor((Math.random() * w) + 1)+"px," + h*2 + "px) rotate(" + slant + "deg)";
+				line.style.transform="translate("+ Math.floor((Math.random() * w*3) + 1)+"px," + h*2 + "px) rotate(" + slant + "deg)";
 			}
 			area.style.transform="translate("+ w/2.5+"px," + h*2 +"px)";
 

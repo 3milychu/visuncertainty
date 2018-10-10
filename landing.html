@@ -170,6 +170,7 @@ body, html {
 	}
 	.card-holder {
 		width:100%;
+		padding-bottom:20%;
 	}
 	html, body {
 		width:100vh;
@@ -370,7 +371,7 @@ function toggleSection() {
 				var slant = Math.random() < 0.5 ? 90 : 180;
 				line.style.transform="translate("+ Math.floor((Math.random() * w) + 1)+"px," + h+ "px) rotate(" + slant + "deg)";
 			}
-			area.style.transform="translate("+ w/2.5+"px," + h*0.95 +"px)";
+			area.style.transform="translate("+ w/2.5+"px," + h*0.97 +"px)";
 
 		} else {
 			for(i=0;i<points.length;i++){
@@ -387,8 +388,8 @@ function toggleSection() {
 		}
 		
 		if(w*3<=900) {
-			area.style.width="5em";
-			area.style.height="6em";
+			area.style.width="8em";
+			area.style.height="9em";
 		} else {
 			area.style.width="12em";
 			area.style.height="13em";

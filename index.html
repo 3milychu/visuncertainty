@@ -1283,7 +1283,7 @@ function updateData () {
 					.append("img")
 					.attr("class", "image")
 					.attr("src", function(d) 
-						{return "http://visualizeuncertainty.io/img_cropped/" + d.s_no + ".jpg";})
+						{return "https://raw.githubusercontent.com/aaronxhill/uncertainty/master/public/img_cropped/" + d.s_no + ".jpg";})
 					.exit()
 				var min=d3.min(df, function(d) {return d.s_no;});
 				var max=d3.max(df, function(d) {return d.s_no;})+1;

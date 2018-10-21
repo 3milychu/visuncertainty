@@ -296,7 +296,7 @@ var h = window.innerHeight;
 function getpoints() {
 	for(i=0;i<points.length;i++){
 	point = points[i];
-	point.style.transform="translate("+ Math.floor((Math.random() * w*3) + 1)+"px," + Math.floor((Math.random() * h/1.5) + -h/4)+"px)";
+	point.style.transform="translate("+ Math.floor((Math.random() * w) + 1)+"px," + Math.floor((Math.random() * h/1.5) + -h/4)+"px)";
 	point.style.transition="all 0.5s ease-in";
 	point.style.backgroundColor="#F16E31";
 	}
@@ -305,7 +305,7 @@ function getpoints() {
 function getlines() {
 	for(i=0;i<lines.length;i++){
 	line= lines[i];
-	line.style.transform="translate("+ Math.floor((Math.random() * w*3) + 1)+"px," + Math.floor((Math.random() * h/1.5) + -h/4)+"px) rotate(" + Math.floor((Math.random() * 180) +1) + "deg)";
+	line.style.transform="translate("+ Math.floor((Math.random() * w) + 1)+"px," + Math.floor((Math.random() * h/1.5) + -h/4)+"px) rotate(" + Math.floor((Math.random() * 180) +1) + "deg)";
 	random=Math.floor((Math.random() * 10) + 0.5)
 	line.style.borderTop=random+"px solid black";
 	line.style.transition="all 0.5s ease-in";

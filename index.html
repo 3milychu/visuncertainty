@@ -156,7 +156,6 @@ input:checked + .slider:before {
   -ms-transform: translateX(26px);
   transform: translateX(26px);
 }
-
 /*mobile instructions*/
 
 @keyframes swipever {
@@ -186,6 +185,8 @@ instructions-section img {
 .slider.round:before {
   border-radius: 50%;
 }
+
+
 @media screen and (max-width:900px) {
 	header {
 		padding: 12.5% 5%;
@@ -524,7 +525,7 @@ customElements.define('checkbox-lightbox', class extends HTMLElement {
 			margin: 5% 3% 5% 8%;
 			height:50vh;
 			background-color:black;
-			overflow:hidden;
+			overflow:scroll;
 			color:white;
 		}
 		@media screen and (max-width:900px){
@@ -589,7 +590,6 @@ customElements.define('close-cancel', class extends HTMLElement {
 			border: 0.05em #EB2E2F solid;
 			transition: all 0.25s ease-in-out;
 		}
-		
 		@media screen and (max-width:900px) {
 			:host {
 				margin-right:5%;
@@ -758,15 +758,20 @@ customElements.define('checkbox-holder', class extends HTMLElement {
 		<style>
 		:host {
 			display:inline-block;
-			width:30%;
+			width:80%;
 			height:100%;
 			padding-left:5%;
-			padding-top:12.5%;
+			padding-top:5%;
+		}
+		::slotted( div ){
+			display:inline-block;
+			margin:5%;
 		}
 		@media screen and (max-width:900px) {
 			:host {
 				width:100%;
 				height:30%;
+				padding-top:12.5%;
 			}
 		}
 		</style>

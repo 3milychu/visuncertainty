@@ -23,7 +23,10 @@ header {
 	background-color:white;
 	width:80%;
 	height:auto;
-	padding: 5%;
+	padding: 3% 5%;
+}
+header a {
+	text-decoration:none;
 }
 site-logo {
 	font-size:0.8em;
@@ -34,6 +37,13 @@ site-logo {
 	text-transform:uppercase;
 	font-weight:600;
 	vertical-align:bottom;
+	cursor:pointer;
+	transition:0.25s ease-in-out;
+}
+site-logo:hover {
+	color:white;
+	background-color:#EB2E2F;
+	border:0.3em solid black;
 }
 nav {
 	color: #1A1A1A;
@@ -189,7 +199,7 @@ instructions-section img {
 
 @media screen and (max-width:900px) {
 	header {
-		padding: 12.5% 5%;
+		padding: 8% 5%;
 	}
 	#output-count {
 		position:relative;
@@ -229,8 +239,7 @@ instructions-section img {
 	<lightbox-slider></lightbox-slider>
 
 	<header>
-		<site-logo>Uncertainty</site-logo>
-		<nav>&#9776;</nav>
+		<a href="landing.html"><site-logo>Uncertainty</site-logo></a>
 	</header>
 
 	<slider-lightbox>
